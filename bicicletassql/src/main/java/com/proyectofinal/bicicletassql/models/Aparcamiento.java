@@ -1,4 +1,4 @@
-package com.proyectofinal.polucionsql.models;
+package com.proyectofinal.bicicletassql.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,15 +8,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 
 @Entity
-@Table(name = "estacion")
-public class Estacion {
+@Table(name = "aparcamiento")
+public class Aparcamiento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "direction")
     private String Direccion;
+
+    @Column(name = "bikescapacity")
+    private Integer CapacidadBici;
 
     @Column(name = "latitude")
     private Float Latitud;
@@ -24,14 +27,7 @@ public class Estacion {
     @Column(name = "longitude")
     private Float Longitud;
 
-    public Estacion() {
-    }
-
-    public Estacion(String id, String direccion, Float latitud, Float longitud) {
-        this.id = id;
-        Direccion = direccion;
-        Latitud = latitud;
-        Longitud = longitud;
+    public Aparcamiento() {
     }
 
     public String getId() {
@@ -48,6 +44,14 @@ public class Estacion {
 
     public void setDireccion(String direccion) {
         Direccion = direccion;
+    }
+
+    public Integer getCapacidadBici() {
+        return CapacidadBici;
+    }
+
+    public void setCapacidadBici(Integer capacidadBicicletas) {
+        CapacidadBici = capacidadBicicletas;
     }
 
     public Float getLatitud() {
