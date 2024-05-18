@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionApplication<polucion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyecto_final.polucion.PolucionApplication",
+            "projectName": "polucionsql",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionApplication<polucion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyecto_final.polucion.PolucionApplication",
+            "projectName": "polucion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-polucionsqlApplication<polucionsql>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.polucionsql.polucionsqlApplication",
+            "projectName": "polucionsql",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
