@@ -39,7 +39,7 @@ public class AparacamientoMongoController {
         System.out.println("Deleting aparacamiento");
     }
 
-    @PostMapping("/evento/{id}")
+    @PostMapping("/aparcamiento/{id}")
     public void getEventoById(){
         
     }
