@@ -14,9 +14,26 @@ public class EstacionService {
 
     @Autowired
     private EstacionRepository estacionRepository;
-    
+
     public List<Estacion> findAll() {
         return estacionRepository.findAll();
+    }
+
+    public Estacion create(Estacion Estacion) {
+        try {
+            Estacion u = this.estacionRepository.save(Estacion);
+            return u;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    public Estacion findById(Integer id) {
+        return this.estacionRepository.findById(id).orElse(null);
+    }
+
+    public void delete(Estacion Estacion) {
+        this.estacionRepository.delete(Estacion);
     }
 
 }
