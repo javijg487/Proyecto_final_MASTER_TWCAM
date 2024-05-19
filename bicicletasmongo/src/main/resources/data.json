@@ -1,0 +1,37 @@
+[
+    {
+        "id": 2,
+        "operation": "rent",
+        "bikesAvailable": 30,
+        "freeParkingSpots": 10,
+        "timestamp": "2022-03-23T15:30:00.000Z"
+    },
+    {
+        "id": 3,
+        "operation": "return",
+        "bikesAvailable": 45,
+        "freeParkingSpots": 25,
+        "timestamp": "2022-03-23T16:45:15.000Z"
+    },
+    {
+        "id": 4,
+        "operation": "rent",
+        "bikesAvailable": 20,
+        "freeParkingSpots": 35,
+        "timestamp": "2022-03-23T17:00:45.000Z"
+    },
+    {
+        "id": 5,
+        "operation": "return",
+        "bikesAvailable": 55,
+        "freeParkingSpots": 15,
+        "timestamp": "2022-03-23T18:10:30.000Z"
+    },
+    {
+        "id": 6,
+        "operation": "rent",
+        "bikesAvailable": 40,
+        "freeParkingSpots": 20,
+        "timestamp": "2022-03-23T19:25:00.000Z"
+    }
+]
