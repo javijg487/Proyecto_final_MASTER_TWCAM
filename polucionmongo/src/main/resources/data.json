@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "timeStamp": "2024-03-01T14:30:57Z",
         "nitricOxides": 125,
         "nitrogenDioxides": 5.2,
@@ -8,7 +8,7 @@
         "PM2_5": 7.1
     },
     {
-        "id": 2,
+        "id": "2",
         "timeStamp": "2021-03-01T14:30:57Z",
         "nitricOxides": 14,
         "nitrogenDioxides": 89.2,
@@ -16,11 +16,35 @@
         "PM2_5": 7.1
     },
     {
-        "id": 5,
+        "id": "5",
         "timeStamp": "2021-03-01T14:30:57Z",
         "nitricOxides": 14323,
         "nitrogenDioxides": 89.2,
         "VOCs_NMHC": 1.8,
         "PM2_5": 7.1
+    },
+    {
+        "id": "2",
+        "timeStamp": "2023-07-15T09:45:30Z",
+        "nitricOxides": 73,
+        "nitrogenDioxides": 10.5,
+        "VOCs_NMHC": 3.2,
+        "PM2_5": 6.3
+    },
+    {
+        "id": "2",
+        "timeStamp": "2022-11-28T18:20:00Z",
+        "nitricOxides": 98,
+        "nitrogenDioxides": 7.8,
+        "VOCs_NMHC": 5.4,
+        "PM2_5": 9.1
+    },
+    {
+        "id": "5",
+        "timeStamp": "2023-04-02T12:10:45Z",
+        "nitricOxides": 102,
+        "nitrogenDioxides": 6.9,
+        "VOCs_NMHC": 4.1,
+        "PM2_5": 8.7
     }
 ]
