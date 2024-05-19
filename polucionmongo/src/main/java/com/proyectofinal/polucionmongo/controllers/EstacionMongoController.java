@@ -1,7 +1,6 @@
 package com.proyectofinal.polucionmongo.controllers;
 
 import com.proyectofinal.polucionmongo.models.EstacionMongo;
-import com.proyectofinal.polucionmongo.repositories.EstacionMongoRepository;
 import com.proyectofinal.polucionmongo.services.EstacionMongoService;
 
 import java.io.IOException;
@@ -34,36 +33,6 @@ public class EstacionMongoController {
 		estaciones = ems.findAll();
 		return new ResponseEntity<>(estaciones, HttpStatus.OK);
 	}
-
-	// @GetMapping("/status")
-	// public ResponseEntity<List<EstacionMongo>>
-	// getAll(@RequestParam(value="firstname", required = false) Optional<String>
-	// first,
-	// @RequestParam(value="lastname", required = false) Optional<String> last,
-	// @RequestParam(value="start", required = false) Optional<Boolean> start) {
-	// List<EstacionMongo> users = new ArrayList<EstacionMongo>();
-	// if(first.isPresent()) {
-	// if(start.isPresent()) {
-	// users = this.ems.findByFirstnameStartingWith(first.get());
-	// }
-	// else {
-	// users = this.ems.findByFirstname(first.get());
-	// }
-	// }
-	// else if(last.isPresent()) {
-	// if(start.isPresent()) {
-	// users = this.ems.findByLastnameStartingWith(last.get());
-	// }
-	// else {
-	// users = this.ems.findByLastname(last.get());
-	// }
-	// }
-	// else {
-	// users = ems.findAll();
-	// }
-
-	// return new ResponseEntity<>(users, HttpStatus.OK);
-	// }
 
 	@GetMapping("/{id}/status")
 	public ResponseEntity<?> getById(@PathVariable Integer id,

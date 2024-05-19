@@ -1,10 +1,8 @@
 package com.proyectofinal.polucionmongo.repositories;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import com.proyectofinal.polucionmongo.models.EstacionMongo;
 
