@@ -30,66 +30,83 @@ public class EstacionMongoController {
 
 	@GetMapping("/status")
 	public ResponseEntity<List<EstacionMongo>> getAll() {
-		List<EstacionMongo> users = new ArrayList<EstacionMongo>();
-			users = ems.findAll();
-		return new ResponseEntity<>(users, HttpStatus.OK);
+		List<EstacionMongo> estaciones = new ArrayList<EstacionMongo>();
+		estaciones = ems.findAll();
+		return new ResponseEntity<>(estaciones, HttpStatus.OK);
 	}
 
 	// @GetMapping("/status")
-	// public ResponseEntity<List<EstacionMongo>> getAll(@RequestParam(value="firstname", required = false) Optional<String> first, 
-	// 		@RequestParam(value="lastname", required = false) Optional<String> last, 
-	// 		@RequestParam(value="start", required = false) Optional<Boolean> start) {
-	// 	List<EstacionMongo> users = new ArrayList<EstacionMongo>();
-	// 	if(first.isPresent()) {
-	// 		if(start.isPresent()) {
-	// 			users = this.ems.findByFirstnameStartingWith(first.get());
-	// 		}
-	// 		else {
-	// 			users = this.ems.findByFirstname(first.get());
-	// 		}
-	// 	}
-	// 	else if(last.isPresent()) {
-	// 		if(start.isPresent()) {
-	// 			users = this.ems.findByLastnameStartingWith(last.get());
-	// 		}
-	// 		else {
-	// 			users = this.ems.findByLastname(last.get());
-	// 		}
-	// 	}
-	// 	else {
-	// 		users = ems.findAll();
-	// 	}
-		
-	// 	return new ResponseEntity<>(users, HttpStatus.OK);
+	// public ResponseEntity<List<EstacionMongo>>
+	// getAll(@RequestParam(value="firstname", required = false) Optional<String>
+	// first,
+	// @RequestParam(value="lastname", required = false) Optional<String> last,
+	// @RequestParam(value="start", required = false) Optional<Boolean> start) {
+	// List<EstacionMongo> users = new ArrayList<EstacionMongo>();
+	// if(first.isPresent()) {
+	// if(start.isPresent()) {
+	// users = this.ems.findByFirstnameStartingWith(first.get());
+	// }
+	// else {
+	// users = this.ems.findByFirstname(first.get());
+	// }
+	// }
+	// else if(last.isPresent()) {
+	// if(start.isPresent()) {
+	// users = this.ems.findByLastnameStartingWith(last.get());
+	// }
+	// else {
+	// users = this.ems.findByLastname(last.get());
+	// }
+	// }
+	// else {
+	// users = ems.findAll();
 	// }
 
-	// @GetMapping("/{id}/status")
-	// public ResponseEntity<?> getById(@PathVariable Integer id) {
-	// 	EstacionMongo em = ems.findById(id);
-	// 	if (em == null) {
-	// 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	// 	}
-
-	// 	return new ResponseEntity<>(em, HttpStatus.OK);
+	// return new ResponseEntity<>(users, HttpStatus.OK);
 	// }
 
-	// @PostMapping("/{id}")
-	// public ResponseEntity<?> create(@RequestBody EstacionMongo EstacionMongo) throws IOException {
-	// 	EstacionMongo em = ems.create(EstacionMongo);
-	// 	if (em == null) {
-	// 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	// 	}
+	@GetMapping("/{id}/status")
+	public ResponseEntity<?> getById(@PathVariable Integer id,
+			@RequestParam(value = "from", required = false) Optional<String> from,
+			@RequestParam(value = "to", required = false) Optional<String> to) {
 
-	// 	return new ResponseEntity<>(em, HttpStatus.CREATED);
-	// }
+		if (from.isPresent() && to.isPresent()) {
+			List<EstacionMongo> em = ems.findByIdentificadorAndTimestampBetween(id, from.get(), to.get());
+			if (em.isEmpty()) {
+				System.out.println("No se encontraron registros");
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(em, HttpStatus.OK);
+		} else {
+			List<EstacionMongo> em = ems.findAllById(id);
 
-	// @DeleteMapping("/{id}")
-	// public ResponseEntity<?> delete(@PathVariable Integer id) {
-	// 	EstacionMongo em = ems.findById(id);
-	// 	if (em == null) {
-	// 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	// 	}
-	// 	ems.delete(em);
-	// 	return new ResponseEntity<>(em, HttpStatus.OK);
-	// }
+			if (em.isEmpty()) {
+				System.out.println("No se encontraron registros");
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<>(em, HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/{id}")
+	public ResponseEntity<?> create(@RequestBody EstacionMongo EstacionMongo) throws IOException {
+		EstacionMongo em = ems.create(EstacionMongo);
+		if (em == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(em, HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Integer id) {
+		List<EstacionMongo> em = ems.findAllById(id);
+		if (em.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		for (EstacionMongo estacionMongo : em) {
+			ems.delete(estacionMongo);
+		}
+		return new ResponseEntity<>(em, HttpStatus.OK);
+	}
 }

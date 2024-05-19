@@ -7,9 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document
 public class EstacionMongo {
-
 	@Id
-	private Integer id; //Mismo de MySQL mi id para identificar
+	private String _id;
+	@JsonProperty("id")
+	private Integer identificador; //Mismo de MySQL mi id para identificar
 	@JsonProperty("timeStamp")
 	private String timeStamp;
 	@JsonProperty("nitricOxides")
@@ -23,8 +24,8 @@ public class EstacionMongo {
 
 	public EstacionMongo() {}
 
-	public EstacionMongo(Integer id, String timeStamp, Float nitricOxides,Float nitrogenDioxides, Float vocsNMHC, Float PM25) {
-		this.id = id;
+	public EstacionMongo(Integer identificador, String timeStamp, Float nitricOxides,Float nitrogenDioxides, Float vocsNMHC, Float PM25) {
+		this.identificador = identificador;
 		this.timeStamp = timeStamp;
 		this.nitricOxides = nitricOxides;
 		this.nitrogenDioxides = nitrogenDioxides;
@@ -32,12 +33,12 @@ public class EstacionMongo {
 		this.PM25 = PM25;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getIdentificador() {
+		return identificador;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdentificador(Integer identificador) {
+		this.identificador = identificador;
 	}
 
 	public String getTimeStamp() {
