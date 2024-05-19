@@ -50,6 +50,6 @@ public class AparcamientoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         as.delete(a);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(a, HttpStatus.OK);
     }
 }

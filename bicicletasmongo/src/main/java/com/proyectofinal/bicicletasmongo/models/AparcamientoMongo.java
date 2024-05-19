@@ -2,12 +2,15 @@ package com.proyectofinal.bicicletasmongo.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document
 public class AparcamientoMongo {
-
     @Id
-    private Integer id;
+    private String _id;
+
+    @JsonProperty("id")
+    private Integer identificador;
     private String operation;
     private Integer bikesAvailable;
     private Integer freeParkingSpots;
@@ -16,19 +19,19 @@ public class AparcamientoMongo {
     public AparcamientoMongo(){}
     
     public AparcamientoMongo(Integer id, String operation, Integer bikesAvailable, Integer freeParkingSpots, String timestamp){
-        this.id = id;
+        this.identificador = id;
         this.operation = operation;
         this.bikesAvailable = bikesAvailable;
         this.freeParkingSpots = freeParkingSpots;
         this.timestamp = timestamp;
     }
 
-    public Integer getId(){
-        return id;
+    public Integer getIdentificador(){
+        return identificador;
     }
 
-    public void setId(Integer id){
-        this.id = id;
+    public void setIdentificador(Integer id){
+        this.identificador = id;
     }
 
     public String getOperation(){
