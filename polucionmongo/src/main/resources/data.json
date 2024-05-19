@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "timeStamp": "2024-03-01T14:30:57Z",
+        "nitricOxides": 125,
+        "nitrogenDioxides": 5.2,
+        "VOCs_NMHC": 6.8,
+        "PM2_5": 7.1
+    },
+    {
+        "id": 2,
+        "timeStamp": "2021-03-01T14:30:57Z",
+        "nitricOxides": 14,
+        "nitrogenDioxides": 89.2,
+        "VOCs_NMHC": 1.8,
+        "PM2_5": 7.1
+    },
+    {
+        "id": 5,
+        "timeStamp": "2021-03-01T14:30:57Z",
+        "nitricOxides": 14323,
+        "nitrogenDioxides": 89.2,
+        "VOCs_NMHC": 1.8,
+        "PM2_5": 7.1
+    }
+]
