@@ -20,3 +20,17 @@ services:
       MYSQL_DATABASE: SQLBicicletas
     ports:
       - "3307:3306"
+
+  db_polucion_mongo:
+    image: mongo
+    container_name: mongo-container-polucion
+    restart: always
+    ports:
+      - "27017:27017"
+      
+  db_bicicletas_mongo:
+    image: mongo
+    container_name: mongo-container-bicicletas
+    restart: always
+    ports:
+      - "27018:27017"
