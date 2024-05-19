@@ -20,4 +20,3 @@ services:
       MYSQL_DATABASE: SQLBicicletas
     ports:
       - "3307:3306"
-

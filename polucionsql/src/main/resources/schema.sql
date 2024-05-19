@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS estacion (
-    id VARCHAR(5) PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     direction VARCHAR(255),
     latitude FLOAT,
     longitude FLOAT

@@ -19,6 +19,4 @@ public class EstacionService {
         return estacionRepository.findAll();
     }
 
-    
-
 }

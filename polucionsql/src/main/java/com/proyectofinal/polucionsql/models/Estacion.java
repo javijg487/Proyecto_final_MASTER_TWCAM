@@ -13,7 +13,7 @@ public class Estacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     @Column(name = "direction")
     private String Direccion;
@@ -27,18 +27,18 @@ public class Estacion {
     public Estacion() {
     }
 
-    public Estacion(String id, String direccion, Float latitud, Float longitud) {
+    public Estacion(Integer id, String direccion, Float latitud, Float longitud) {
         this.id = id;
         Direccion = direccion;
         Latitud = latitud;
         Longitud = longitud;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

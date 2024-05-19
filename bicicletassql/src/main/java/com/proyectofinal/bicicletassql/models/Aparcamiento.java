@@ -12,13 +12,13 @@ import jakarta.persistence.GeneratedValue;
 public class Aparcamiento {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "direction")
     private String Direccion;
 
-    @Column(name = "bikescapacity")
+    @Column(name = "bikes_capacity")
     private Integer CapacidadBici;
 
     @Column(name = "latitude")
@@ -30,11 +30,11 @@ public class Aparcamiento {
     public Aparcamiento() {
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

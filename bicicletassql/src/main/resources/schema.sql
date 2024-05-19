@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS aparcamiento (
-    id  VARCHAR(5) PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     direction VARCHAR(255),
-    bikescapacity INT NOT NULL,
+    bikes_capacity INT NOT NULL,
     latitude FLOAT NOT NULL,
     longitude FLOAT NOT NULL
 );
