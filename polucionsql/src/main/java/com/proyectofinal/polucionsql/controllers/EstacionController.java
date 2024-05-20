@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -54,6 +55,18 @@ public class EstacionController {
         }
         estacionService.delete(e);
         return new ResponseEntity<>(e, HttpStatus.OK);
+    }
+
+    @PutMapping("estacion/{id}")
+    public ResponseEntity<Estacion> editEstacion(@PathVariable Integer id, @RequestBody Estacion estacion) {
+        Estacion e = estacionService.editEstacion(estacion, id);
+
+        if(e == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            
+            return new ResponseEntity<>(e, HttpStatus.OK);
+        }
     }
 
 }

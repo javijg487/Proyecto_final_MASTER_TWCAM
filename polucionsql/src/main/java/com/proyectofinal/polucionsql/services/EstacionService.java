@@ -36,4 +36,19 @@ public class EstacionService {
         this.estacionRepository.delete(Estacion);
     }
 
+    public Estacion editEstacion(Estacion estacion, Integer id) {
+        Estacion e = findById(id);
+        
+        if (e == null){
+            return e;
+        }
+
+       
+        e.setDireccion(estacion.getDireccion());
+        e.setLatitud(estacion.getLatitud());
+        e.setLongitud(estacion.getLongitud());
+
+        return this.estacionRepository.save(e);
+    }
+
 }
