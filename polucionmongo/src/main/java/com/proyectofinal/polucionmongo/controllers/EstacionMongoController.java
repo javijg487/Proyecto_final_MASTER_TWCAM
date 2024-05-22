@@ -47,9 +47,9 @@ public class EstacionMongoController {
 			}
 			return new ResponseEntity<>(em, HttpStatus.OK);
 		} else {
-			List<EstacionMongo> em = ems.findAllById(id);
+			EstacionMongo em = ems.findFirstByIdentificadorOrderByTimestampDesc(id);
 
-			if (em.isEmpty()) {
+			if (em == null) {
 				System.out.println("No se encontraron registros");
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}

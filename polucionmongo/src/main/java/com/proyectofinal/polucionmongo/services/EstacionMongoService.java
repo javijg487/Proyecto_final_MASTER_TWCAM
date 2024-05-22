@@ -18,26 +18,6 @@ public class EstacionMongoService {
 		return this.emr.findAll();
 	}
 
-	// public List<EstacionMongo> findByFirstname(String firstname) {
-	// return this.emr.findByFirstname(firstname);
-	// }
-
-	// public List<EstacionMongo> findByFirstnameStartingWith(String firstname) {
-	// return this.emr.findByFirstnameStartingWith(firstname);
-	// }
-
-	// public List<EstacionMongo> findByLastname(String lastname) {
-	// return this.emr.findByLastname(lastname);
-	// }
-
-	// public List<EstacionMongo> findByLastnameStartingWith(String lastname) {
-	// return this.emr.findByLastnameStartingWith(lastname);
-	// }
-
-	// public List<EstacionMongo> findByEmail(String email) {
-	// return this.emr.findByEmail(email);
-	// }
-
 	public EstacionMongo create(EstacionMongo EstacionMongo) {
 		try {
 			EstacionMongo u = this.emr.save(EstacionMongo);
@@ -58,4 +38,8 @@ public class EstacionMongoService {
 	public List<EstacionMongo> findByIdentificadorAndTimestampBetween(Integer id, String from, String to){
         return this.emr.findByIdentificadorAndTimeStampBetween(id, from, to);
     }
+
+	public EstacionMongo findFirstByIdentificadorOrderByTimestampDesc(Integer id){
+		return this.emr.findFirstByIdentificadorOrderByTimeStampDesc(id);
+	}
 }

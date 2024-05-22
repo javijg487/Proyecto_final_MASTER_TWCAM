@@ -11,4 +11,6 @@ public interface EstacionMongoRepository extends MongoRepository<EstacionMongo, 
 	List<EstacionMongo> findByIdentificador(Integer identificador);
 	
 	List<EstacionMongo> findByIdentificadorAndTimeStampBetween(Integer id, String from, String to);
+
+	EstacionMongo findFirstByIdentificadorOrderByTimeStampDesc(Integer identificador);
 }
