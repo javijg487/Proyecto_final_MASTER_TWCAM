@@ -1,6 +1,5 @@
 package com.proyectofinal.polucion.models;
 
-
 public class EstacionDTO {
 
     private Integer id;

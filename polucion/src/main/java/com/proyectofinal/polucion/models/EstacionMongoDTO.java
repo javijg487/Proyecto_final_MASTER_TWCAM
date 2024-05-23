@@ -11,7 +11,7 @@ public class EstacionMongoDTO {
 	private Float nitricOxides;
 
 	private Float nitrogenDioxides;
-	 @JsonProperty("VOCs_NMHC")
+	@JsonProperty("VOCs_NMHC")
 	private Float vocsNMHC;
 	@JsonProperty("PM2_5")
 	private Float pm25;

@@ -38,20 +38,19 @@ public class EstacionMongoController {
 	public ResponseEntity<?> getById(@PathVariable Integer id,
 			@RequestParam(value = "from", required = false) Optional<String> from,
 			@RequestParam(value = "to", required = false) Optional<String> to) {
-
+				List<EstacionMongo> em = new ArrayList<EstacionMongo>();
 		if (from.isPresent() && to.isPresent()) {
-			List<EstacionMongo> em = ems.findByIdentificadorAndTimestampBetween(id, from.get(), to.get());
+			 em = ems.findByIdentificadorAndTimestampBetween(id, from.get(), to.get());
 			if (em.isEmpty()) {
 				System.out.println("No se encontraron registros");
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new EstacionMongo(),HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(em, HttpStatus.OK);
 		} else {
-			EstacionMongo em = ems.findFirstByIdentificadorOrderByTimestampDesc(id);
-
-			if (em == null) {
+			em.add(ems.findFirstByIdentificadorOrderByTimestampDesc(id));
+			if (em.get(0) == null) {
 				System.out.println("No se encontraron registros");
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new EstacionMongo(),HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(em, HttpStatus.OK);
 		}
@@ -67,15 +66,4 @@ public class EstacionMongoController {
 		return new ResponseEntity<>(em, HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/{id}/status")
-	public ResponseEntity<?> delete(@PathVariable Integer id) {
-		List<EstacionMongo> em = ems.findAllById(id);
-		if (em.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		for (EstacionMongo estacionMongo : em) {
-			ems.delete(estacionMongo);
-		}
-		return new ResponseEntity<>(em, HttpStatus.OK);
-	}
 }

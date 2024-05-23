@@ -48,12 +48,11 @@ public class EstacionController {
     @GetMapping("/estaciones")
     public ResponseEntity<List<EstacionDTO>> findEstaciones() {
         ResponseEntity<EstacionDTO[]> response;
-        LOGGER.debug("View all estaciones");
         List<EstacionDTO> estaciones = new ArrayList<EstacionDTO>();
         try {
             response = restTemplate.getForEntity(estacionSQLUrl + "/estaciones", EstacionDTO[].class);
         } catch (ResourceAccessException e) {
-            LOGGER.error("Error al obtener las estaciones de la base de datos SQL");
+
             return new ResponseEntity<>(estaciones, HttpStatus.SERVICE_UNAVAILABLE);
         }
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -73,7 +72,7 @@ public class EstacionController {
             return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
         }
         if (response.getStatusCode() == HttpStatus.CREATED) {
-            LOGGER.error("Body: " + response.getBody() + "status" + response.getStatusCode().toString());
+
             return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
         }
         return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -101,13 +100,12 @@ public class EstacionController {
     }
 
     // Parte de Mongo
-
     @GetMapping("estacion/status")
     public ResponseEntity<List<EstacionMongoDTO>> getAll() {
         ResponseEntity<EstacionMongoDTO[]> response;
         List<EstacionMongoDTO> estaciones = new ArrayList<EstacionMongoDTO>();
         try {
-            response = restTemplate.getForEntity(estacionMongoUrl + "/status", EstacionMongoDTO[].class);
+            response = restTemplate.getForEntity(estacionMongoUrl + "/estacion/status", EstacionMongoDTO[].class);
         } catch (ResourceAccessException e) {
             return new ResponseEntity<>(estaciones, HttpStatus.SERVICE_UNAVAILABLE);
         }
@@ -126,9 +124,10 @@ public class EstacionController {
         ResponseEntity<EstacionMongoDTO[]> response;
         List<EstacionMongoDTO> estaciones = new ArrayList<EstacionMongoDTO>();
         // Para facilitar la construccion de la URL
-        String URL = UriComponentsBuilder.fromHttpUrl(estacionMongoUrl + "/" + id + "/status")
-                .queryParam("from", from.orElse(null))
-                .queryParam("to", to.orElse(null)).toUriString();
+        String URL = UriComponentsBuilder.fromHttpUrl(estacionMongoUrl + "/estacion/" + id + "/status")
+                .queryParamIfPresent("from", from)
+                .queryParamIfPresent("to", to).toUriString();
+        LOGGER.error("URL:" + URL);
         try {
             response = restTemplate.getForEntity(URL, EstacionMongoDTO[].class);
             estaciones = Arrays.asList(response.getBody());
@@ -145,7 +144,7 @@ public class EstacionController {
         boolean idEncontrado = false;
         List<EstacionDTO> estaciones = findEstaciones().getBody();
 
-        if (estaciones != null) {
+        if (!estaciones.isEmpty()) {
             for (EstacionDTO estacion : estaciones) {
                 if (estacion.getId().equals(id)) {
                     idEncontrado = true;
@@ -156,26 +155,15 @@ public class EstacionController {
 
         if (idEncontrado) {
             try {
-                response = restTemplate.postForEntity(estacionMongoUrl + "/" + id, EstacionMongo,
+                response = restTemplate.postForEntity(estacionMongoUrl + "/estacion/" + id, EstacionMongo,
                         EstacionMongoDTO.class);
             } catch (ResourceAccessException e) {
                 return new ResponseEntity<EstacionMongoDTO>(new EstacionMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
             }
             if (response.getStatusCode() == HttpStatus.CREATED) {
-                LOGGER.error("Body: " + response.getBody() + "status" + response.getStatusCode().toString());
                 return new ResponseEntity<EstacionMongoDTO>(response.getBody(), HttpStatus.CREATED);
             }
         }
         return new ResponseEntity<EstacionMongoDTO>(new EstacionMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
-
-     @DeleteMapping("estacion/{id}/status")
-     public ResponseEntity<?> deletemongo(@PathVariable Integer id) {
-         try {
-             restTemplate.delete(estacionMongoUrl + "/" + id);
-             return new ResponseEntity<Integer>(id, HttpStatus.OK);
-         } catch (ResourceAccessException e) {
-             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
-         }
-     }
 }

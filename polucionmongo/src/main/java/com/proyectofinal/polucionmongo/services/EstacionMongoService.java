@@ -24,7 +24,7 @@ public class EstacionMongoService {
 		try {
 			estacionMongo.setIdentificador(id);
 			LocalDateTime date = LocalDateTime.now();
-			 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 			String formattedString = date.format(formatter);
 			estacionMongo.setTimeStamp(formattedString);
 			EstacionMongo u = this.emr.save(estacionMongo);
