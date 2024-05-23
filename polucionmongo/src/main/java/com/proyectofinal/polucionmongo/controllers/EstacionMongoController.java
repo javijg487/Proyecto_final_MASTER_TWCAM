@@ -58,8 +58,8 @@ public class EstacionMongoController {
 	}
 
 	@PostMapping("/{id}")
-	public ResponseEntity<?> create(@RequestBody EstacionMongo EstacionMongo) throws IOException {
-		EstacionMongo em = ems.create(EstacionMongo);
+	public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody EstacionMongo EstacionMongo) throws IOException {
+		EstacionMongo em = ems.create(EstacionMongo, id);
 		if (em == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -67,7 +67,7 @@ public class EstacionMongoController {
 		return new ResponseEntity<>(em, HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}/status")
 	public ResponseEntity<?> delete(@PathVariable Integer id) {
 		List<EstacionMongo> em = ems.findAllById(id);
 		if (em.isEmpty()) {

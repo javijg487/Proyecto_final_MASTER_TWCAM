@@ -1,30 +1,24 @@
-package com.proyectofinal.polucionmongo.models;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.proyectofinal.polucion.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document
-public class EstacionMongo {
-	@Id
-	private String _id;
-	@JsonProperty("id")
-	private Integer identificador; //Mismo de MySQL mi id para identificar
-	@JsonProperty("timeStamp")
+public class EstacionMongoDTO {
+
+	private Integer identificador;
+
 	private String timeStamp;
-	@JsonProperty("nitricOxides")
+
 	private Float nitricOxides;
-	@JsonProperty("nitrogenDioxides")
+
 	private Float nitrogenDioxides;
-	@JsonProperty("VOCs_NMHC")
+	 @JsonProperty("VOCs_NMHC")
 	private Float vocsNMHC;
 	@JsonProperty("PM2_5")
 	private Float pm25;
 
-	public EstacionMongo() {}
+	public EstacionMongoDTO() {}
 
-	public EstacionMongo(Integer identificador, String timeStamp, Float nitricOxides,Float nitrogenDioxides, Float vocsNMHC, Float pm25) {
+	public EstacionMongoDTO(Integer identificador, String timeStamp, Float nitricOxides,Float nitrogenDioxides, Float vocsNMHC, Float pm25) {
 		this.identificador = identificador;
 		this.timeStamp = timeStamp;
 		this.nitricOxides = nitricOxides;
@@ -33,11 +27,11 @@ public class EstacionMongo {
 		this.pm25 = pm25;
 	}
 
-	public Integer getIdentificador() {
+	public Integer getId() {
 		return identificador;
 	}
 
-	public void setIdentificador(Integer identificador) {
+	public void setId(Integer identificador) {
 		this.identificador = identificador;
 	}
 
@@ -80,4 +74,5 @@ public class EstacionMongo {
 	public void setPM25(Float pm25) {
 		this.pm25 = pm25;
 	}
+  
 }

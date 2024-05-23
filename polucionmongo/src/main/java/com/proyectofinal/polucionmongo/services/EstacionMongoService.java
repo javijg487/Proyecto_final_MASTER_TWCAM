@@ -3,6 +3,8 @@ package com.proyectofinal.polucionmongo.services;
 import com.proyectofinal.polucionmongo.models.EstacionMongo;
 import com.proyectofinal.polucionmongo.repositories.EstacionMongoRepository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,14 @@ public class EstacionMongoService {
 		return this.emr.findAll();
 	}
 
-	public EstacionMongo create(EstacionMongo EstacionMongo) {
+	public EstacionMongo create(EstacionMongo estacionMongo, Integer id) {
 		try {
-			EstacionMongo u = this.emr.save(EstacionMongo);
+			estacionMongo.setIdentificador(id);
+			LocalDateTime date = LocalDateTime.now();
+			 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			String formattedString = date.format(formatter);
+			estacionMongo.setTimeStamp(formattedString);
+			EstacionMongo u = this.emr.save(estacionMongo);
 			return u;
 		} catch (IllegalArgumentException e) {
 			return null;

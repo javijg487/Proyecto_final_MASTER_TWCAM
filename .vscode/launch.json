@@ -51,6 +51,26 @@
             "projectName": "bicicletasmongo",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionmongoApplication<polucionmongo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.polucionmongo.PolucionmongoApplication",
+            "projectName": "polucionmongo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PolucionApplication<polucion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.polucion.PolucionApplication",
+            "projectName": "polucion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

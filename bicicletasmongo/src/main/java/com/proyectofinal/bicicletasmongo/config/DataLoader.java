@@ -18,18 +18,22 @@ public class DataLoader {
     @Bean
     CommandLineRunner initDatabase(AparcamientoMongoRepository repository) {
         return args -> {
-            // Leer el archivo JSON
-            ObjectMapper mapper = new ObjectMapper();
-            TypeReference<List<AparcamientoMongo>> typeReference = new TypeReference<List<AparcamientoMongo>>() {};
-            InputStream inputStream = getClass().getResourceAsStream("/data.json");
-            try {
-                List<AparcamientoMongo> aparcamientos = mapper.readValue(inputStream, typeReference);
-                repository.saveAll(aparcamientos);
-                System.out.println("Datos iniciales cargados.");
-            } catch (IOException e) {
-                System.out.println("No se pudo cargar el archivo JSON: " + e.getMessage());
+            if (repository.count() == 0) {
+                // Leer el archivo JSON
+                ObjectMapper mapper = new ObjectMapper();
+                TypeReference<List<AparcamientoMongo>> typeReference = new TypeReference<List<AparcamientoMongo>>() {
+                };
+                InputStream inputStream = getClass().getResourceAsStream("/data.json");
+                try {
+                    List<AparcamientoMongo> aparcamientos = mapper.readValue(inputStream, typeReference);
+                    repository.saveAll(aparcamientos);
+                    System.out.println("Datos iniciales cargados.");
+                } catch (IOException e) {
+                    System.out.println("No se pudo cargar el archivo JSON: " + e.getMessage());
+                }
+            } else {
+                System.out.println("La base de datos ya contiene datos.");
             }
         };
     }
 }
-
