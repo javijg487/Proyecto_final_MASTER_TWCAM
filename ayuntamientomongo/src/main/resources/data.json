@@ -1,0 +1,72 @@
+[
+    {
+        "timeStamp": "2024-04-01T12:00:00Z",
+        "aggregatedData": [
+            {
+                "id": 1,
+                "average_bikesAvailable": 3.5,
+                "air_quality": {
+                    "nitricOxides": 10.5,
+                    "nitrogenDioxides": 5.2,
+                    "VOCs_NMHC": 6.8,
+                    "PM2_5": 7.1
+                }
+            },
+            {
+                "id": 2,
+                "average_bikesAvailable": 10.6,
+                "air_quality": {
+                    "nitricOxides": 12.5,
+                    "nitrogenDioxides": 7.2,
+                    "VOCs_NMHC": 16.8,
+                    "PM2_5": 1.1
+                }
+            },
+            {
+                "id": 3,
+                "average_bikesAvailable": 5.2,
+                "air_quality": {
+                    "nitricOxides": 5.5,
+                    "nitrogenDioxides": 3.2,
+                    "VOCs_NMHC": 6.8,
+                    "PM2_5": 2.1
+                }
+            }
+        ]
+    },{
+        "timeStamp": "2024-07-01T12:00:00Z",
+        "aggregatedData": [
+            {
+                "id": 1,
+                "average_bikesAvailable": 3.5,
+                "air_quality": {
+                    "nitricOxides": 10.5,
+                    "nitrogenDioxides": 5.2,
+                    "VOCs_NMHC": 6.8,
+                    "PM2_5": 7.1
+                }
+            },
+            {
+                "id": 2,
+                "average_bikesAvailable": 10.6,
+                "air_quality": {
+                    "nitricOxides": 12.5,
+                    "nitrogenDioxides": 7.2,
+                    "VOCs_NMHC": 16.8,
+                    "PM2_5": 1.1
+                }
+            },
+            {
+                "id": 3,
+                "average_bikesAvailable": 5.2,
+                "air_quality": {
+                    "nitricOxides": 5.5,
+                    "nitrogenDioxides": 3.2,
+                    "VOCs_NMHC": 6.8,
+                    "PM2_5": 2.1
+                }
+            }
+        ]
+    }
+
+]

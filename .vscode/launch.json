@@ -71,6 +71,16 @@
             "projectName": "polucion",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AyuntamientomongoApplication<ayuntamientomongo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.ayuntamientomongo.AyuntamientomongoApplication",
+            "projectName": "ayuntamientomongo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
