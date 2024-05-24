@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "aggregatedData.url",
+  "type": "java.lang.String",
+  "description": "URL repositorio de mongo de datos agregados"
+}]}

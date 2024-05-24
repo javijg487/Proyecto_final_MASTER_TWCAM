@@ -80,6 +80,27 @@
             "mainClass": "com.proyectofinal.ayuntamientomongo.AyuntamientomongoApplication",
             "projectName": "ayuntamientomongo",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=54412 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=ayuntamientomongo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AyuntamientoApplication<ayuntamiento>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.ayuntamiento.AyuntamientoApplication",
+            "projectName": "ayuntamiento",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BicicletasApplication<bicicletas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.bicicletas.BicicletasApplication",
+            "projectName": "bicicletas",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]
