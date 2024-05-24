@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "bicicletas.SQL.url",
+            "type": "java.lang.String",
+            "description": "URL de la base de datos de SQL"
+        },
+        {
+            "name": "bicicletas.Mongo.url",
+            "type": "java.lang.String",
+            "description": "URL de la base de datos de MongoDB"
+        }
+    ]
+}

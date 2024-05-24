@@ -31,4 +31,9 @@ public class AparcamientoMongoService {
     public List<AparcamientoMongo> findByIdAndTimestampBetween(Integer id, String from, String to){
         return this.amr.findByIdentificadorAndTimestampBetween(id, from, to);
     }
+
+    public AparcamientoMongo findFirstByIdentificadorOrderByTimestampDesc(Integer id){
+        return this.amr.findFirstByIdentificadorOrderByTimestampDesc(id);
+    }
+    
 }

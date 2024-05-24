@@ -1,32 +1,16 @@
-package com.proyectofinal.bicicletasmongo.models;
+package com.proyectofinal.bicicletas.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-@Document
-public class AparcamientoMongo {
-    @Id
-    private String _id;
-
-    @JsonProperty("id")
-    private Integer identificador;
-
-    @JsonProperty("operation")
-    private String operation;
-
-    @JsonProperty("bikesAvailable")
-    private Integer bikesAvailable;
-
-    @JsonProperty("freeParkingSpots")
-    private Integer freeParkingSpots;
+public class AparcamientoMongoDTO {
     
-    @JsonProperty("timestamp")
+    private Integer identificador;
+    private String operation;
+    private Integer bikesAvailable;
+    private Integer freeParkingSpots;
     private String timestamp;
 
-    public AparcamientoMongo(){}
-    
-    public AparcamientoMongo(Integer id, String operation, Integer bikesAvailable, Integer freeParkingSpots, String timestamp){
+    public AparcamientoMongoDTO(){}
+
+    public AparcamientoMongoDTO(Integer id, String operation, Integer bikesAvailable, Integer freeParkingSpots, String timestamp){
         this.identificador = id;
         this.operation = operation;
         this.bikesAvailable = bikesAvailable;
@@ -73,5 +57,5 @@ public class AparcamientoMongo {
     public void setTimestamp(String timestamp){
         this.timestamp = timestamp;
     }
-}
 
+}

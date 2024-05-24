@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,22 +37,23 @@ public class AparacamientoMongoController {
     }
 
     @GetMapping("/{id}/status")
-    public ResponseEntity<List<AparcamientoMongo>> getAparcamientoById(@PathVariable Integer id,
+    public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {
-
+    
+        List<AparcamientoMongo> am = new ArrayList<AparcamientoMongo>();
         if (from.isPresent() && to.isPresent()) {
-            List<AparcamientoMongo> am = ams.findByIdAndTimestampBetween(id, from.get(), to.get());
+            am = ams.findByIdAndTimestampBetween(id, from.get(), to.get());
             if (am.isEmpty()) {
                 System.out.println("No se encontraron registros");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new AparcamientoMongo(),HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(am, HttpStatus.OK);
         } else {
-            List<AparcamientoMongo> am = ams.findAllById(id);
+            am.add(ams.findFirstByIdentificadorOrderByTimestampDesc(id));
 
-            if (am.isEmpty()) {
+            if (am.get(0) == null) {
                 System.out.println("No se encontraron registros");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new AparcamientoMongo(), HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(am, HttpStatus.OK);
         }
@@ -63,14 +65,14 @@ public class AparacamientoMongoController {
     // System.out.println("Deleting aparacamiento");
     // }
 
-    @PostMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> create(@RequestBody AparcamientoMongo a) {
-        AparcamientoMongo aparcamiento = this.ams.create(a);
+    @PostMapping("/{id}")
+    public ResponseEntity<?> create(@RequestBody AparcamientoMongo aparcamientoMongo) throws IOException {
+        AparcamientoMongo am = this.ams.create(aparcamientoMongo);
 
-        if (aparcamiento == null) {
+        if (am == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(aparcamiento, HttpStatus.CREATED);
+        return new ResponseEntity<>(am, HttpStatus.CREATED);
     }
 }
