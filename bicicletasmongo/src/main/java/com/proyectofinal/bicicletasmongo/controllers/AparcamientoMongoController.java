@@ -45,15 +45,13 @@ public class AparcamientoMongoController {
             am = ams.findByIdAndTimestampBetween(id, from.get(), to.get());
             if (am.isEmpty()) {
                 System.out.println("No se encontraron registros");
-                return new ResponseEntity<>(new AparcamientoMongo(),HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(am, HttpStatus.OK);
         } else {
             am.add(ams.findFirstByIdentificadorOrderByTimestampDesc(id));
 
             if (am.get(0) == null) {
-                System.out.println("No se encontraron registros");
-                return new ResponseEntity<>(new AparcamientoMongo(), HttpStatus.NOT_FOUND);
+                System.out.println("No se encontraron registros");   
             }
             return new ResponseEntity<>(am, HttpStatus.OK);
         }

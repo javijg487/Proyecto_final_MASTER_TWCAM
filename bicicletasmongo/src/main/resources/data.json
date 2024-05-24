@@ -21,6 +21,13 @@
         "timestamp": "2022-03-23T17:00:45.000Z"
     },
     {
+        "id": 1,
+        "operation": "rent",
+        "bikesAvailable": 20,
+        "freeParkingSpots": 0,
+        "timestamp": "2022-03-23T17:00:45.000Z"
+    },
+    {
         "id": 5,
         "operation": "return",
         "bikesAvailable": 55,

@@ -1,30 +1,27 @@
 package com.proyectofinal.ayuntamiento.models;
 
-public class AparcamientoLibreDTO {
-    private Integer identificador;
+public class AparcamientoCercanoDTO {
+    private Integer id;
     private int bikesCapacity;
     private Integer bikesAvailable;
     private Integer freeParkingSpots;
-    private Float latitude;
-    private Float longitude;
+    private Float distance;
     
-    public AparcamientoLibreDTO(){}
+    public AparcamientoCercanoDTO(){}
 
-    public AparcamientoLibreDTO(Integer id, int bikesCapacity, Integer bikesAvailable, Integer freeParkingSpots, Float latitude, Float longitude){
-        this.identificador = id;
+    public AparcamientoCercanoDTO(Integer id, int bikesCapacity, Integer bikesAvailable, Integer freeParkingSpots, Float distance){
+        this.id = id;
         this.bikesCapacity = bikesCapacity;
         this.bikesAvailable = bikesAvailable;
         this.freeParkingSpots = freeParkingSpots;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
-    public Integer getIdentificador(){
-        return identificador;
+    public Integer getId(){
+        return id;
     }
 
-    public void setIdentificador(Integer id){
-        this.identificador = id;
+    public void setId(Integer id){
+        this.id = id;
     }
 
     public int getBikesCapacity(){
@@ -51,20 +48,11 @@ public class AparcamientoLibreDTO {
         this.freeParkingSpots = freeParkingSpots;
     }
 
-    public Float getLatitude(){
-        return latitude;
+    public Float getDistance(){
+        return distance;
     }
 
-    public void setLatitude(Float latitude){
-        this.latitude = latitude;
+    public void setDistance(Float distance){
+        this.distance = distance;
     }
-
-    public Float getLongitude(){
-        return longitude;
-    }
-
-    public void setLongitude(Float longitude){
-        this.longitude = longitude;
-    }
-
 }

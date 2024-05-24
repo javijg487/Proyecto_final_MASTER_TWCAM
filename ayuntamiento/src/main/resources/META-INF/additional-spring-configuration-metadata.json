@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "aggregatedData.url",
-  "type": "java.lang.String",
-  "description": "URL repositorio de mongo de datos agregados"
-}]}
+{"properties": [
+  {
+    "name": "aggregatedData.url",
+    "type": "java.lang.String",
+    "description": "URL repositorio de mongo de datos agregados"
+  },
+  {
+    "name": "aparcamiento.API.url",
+    "type": "java.lang.String",
+    "description": "URL API de bicicletas"
+  }
+]}
