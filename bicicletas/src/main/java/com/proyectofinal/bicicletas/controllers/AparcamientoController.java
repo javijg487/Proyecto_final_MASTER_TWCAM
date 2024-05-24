@@ -31,10 +31,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("api/v1")
 public class AparcamientoController {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(AparcamientoController.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -61,23 +59,6 @@ public class AparcamientoController {
             return new ResponseEntity<List<AparcamientoDTO>>(aparcamientos, HttpStatus.OK);
         }
         return new ResponseEntity<List<AparcamientoDTO>>(aparcamientos, HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
-    @GetMapping("/aparcamientos/{id}")
-    public ResponseEntity<AparcamientoDTO> findAparcamientoById(@PathVariable Integer id) {
-        ResponseEntity<AparcamientoDTO> response;
-        AparcamientoDTO aparcamiento = new AparcamientoDTO();
-        try {
-            response = restTemplate.getForEntity(aparcamientoSQLUrl + "/aparcamientos/" + id, AparcamientoDTO.class);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity<>(aparcamiento, HttpStatus.SERVICE_UNAVAILABLE);
-        }
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            aparcamiento = response.getBody();
-            return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.OK);
-        }
-        return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @PostMapping("/aparcamiento")
@@ -107,7 +88,7 @@ public class AparcamientoController {
         }
     }
 
-    @PutMapping("aparcamiento/{id}")
+    @PutMapping("/aparcamiento/{id}")
     public ResponseEntity<?> editAparcamiento(@PathVariable Integer id,
             @RequestBody AparcamientoDTO aparcamiento) {
         try {
@@ -119,7 +100,7 @@ public class AparcamientoController {
     }
 
     // Parte de Mongo
-    @GetMapping("aparcamiento/status")
+    @GetMapping("/aparcamiento/status")
     public ResponseEntity<List<AparcamientoMongoDTO>> getAll() {
         ResponseEntity<AparcamientoMongoDTO[]> response;
         List<AparcamientoMongoDTO> aparcamientos = new ArrayList<AparcamientoMongoDTO>();
@@ -136,7 +117,7 @@ public class AparcamientoController {
         return new ResponseEntity<List<AparcamientoMongoDTO>>(aparcamientos, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @GetMapping("aparcamiento/{id}/status")
+    @GetMapping("/aparcamiento/{id}/status")
     public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {
 
@@ -160,7 +141,7 @@ public class AparcamientoController {
         return new ResponseEntity<List<AparcamientoMongoDTO>>(aparcamientos, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @PostMapping("aparcamiento/{id}")
+    @PostMapping("/aparcamiento/{id}")
     public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo) throws IOException {
         ResponseEntity<AparcamientoMongoDTO> response;
         boolean idEncontrado  = false;

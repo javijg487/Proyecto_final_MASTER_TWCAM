@@ -33,7 +33,8 @@ public class AparcamientoController {
     @GetMapping("/aparcamientos")
     public ResponseEntity<List<Aparcamiento>> findAparcamientos() {
         LOGGER.debug("View all aparcamientos");
-        return new ResponseEntity<>(aparcamientoService.findAll(), HttpStatus.OK);
+        List<Aparcamiento> aparcamientos = aparcamientoService.findAll();
+        return new ResponseEntity<>(aparcamientos, HttpStatus.OK);
     }
     
     @PostMapping("/aparcamiento")
@@ -55,7 +56,7 @@ public class AparcamientoController {
         return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
-    @PutMapping("aparcamiento/{id}")
+    @PutMapping("/aparcamiento/{id}")
     public ResponseEntity<Aparcamiento> editAparcamiento(@PathVariable Integer id, @RequestBody Aparcamiento aparcamiento) {
         Aparcamiento a = aparcamientoService.editAparcamiento(aparcamiento, id);
 

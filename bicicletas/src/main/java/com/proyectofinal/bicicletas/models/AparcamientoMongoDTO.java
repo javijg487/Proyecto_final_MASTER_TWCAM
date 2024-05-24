@@ -18,11 +18,11 @@ public class AparcamientoMongoDTO {
         this.timestamp = timestamp;
     }
 
-    public Integer getIdentificador(){
+    public Integer getId(){
         return identificador;
     }
 
-    public void setIdentificador(Integer id){
+    public void setId(Integer id){
         this.identificador = id;
     }
 
