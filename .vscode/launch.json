@@ -81,6 +81,16 @@
             "projectName": "ayuntamientomongo",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BicicletasApplication<bicicletas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.bicicletas.BicicletasApplication",
+            "projectName": "bicicletas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

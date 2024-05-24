@@ -16,20 +16,29 @@ public class Aparcamiento {
     private Integer id;
 
     @Column(name = "direction")
-    private String Direccion;
+    private String direction;
 
     @Column(name = "bikes_capacity")
-    private Integer CapacidadBici;
+    private Integer bikesCapacity;
 
     @Column(name = "latitude")
-    private Float Latitud;
+    private Float latitude;
 
     @Column(name = "longitude")
-    private Float Longitud;
+    private Float longitude;
 
     public Aparcamiento() {
     }
 
+    public Aparcamiento(Integer id, String direction, Integer bikesCapacity, Float latitude, Float longitude) {
+        this.id = id;
+        this.direction = direction;
+        this.bikesCapacity = bikesCapacity;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    
     public Integer getId() {
         return id;
     }
@@ -38,35 +47,36 @@ public class Aparcamiento {
         this.id = id;
     }
 
-    public String getDireccion() {
-        return Direccion;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setDireccion(String direccion) {
-        Direccion = direccion;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
-    public Integer getCapacidadBici() {
-        return CapacidadBici;
+    public int getBikesCapacity() {
+        return bikesCapacity;
     }
 
-    public void setCapacidadBici(Integer capacidadBicicletas) {
-        CapacidadBici = capacidadBicicletas;
+    public void setBikesCapacity(int bikesCapacity) {
+        this.bikesCapacity = bikesCapacity;
     }
 
-    public Float getLatitud() {
-        return Latitud;
+    public Float getLatitude() {
+        return latitude;
     }
 
-    public void setLatitud(Float latitud) {
-        Latitud = latitud;
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
     }
 
-    public Float getLongitud() {
-        return Longitud;
+    public Float getLongitude() {
+        return longitude;
     }
 
-    public void setLongitud(Float longitud) {
-        Longitud = longitud;
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
     }
+
 }

@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("api/v1")
 public class EstacionController {
     private final static Logger LOGGER = LoggerFactory.getLogger(EstacionController.class);
 
@@ -88,7 +88,7 @@ public class EstacionController {
         }
     }
 
-    @PutMapping("estacion/{id}")
+    @PutMapping("/estacion/{id}")
     public ResponseEntity<?> editEstacion(@PathVariable Integer id,
             @RequestBody EstacionDTO estacion) {
         try {
@@ -100,7 +100,7 @@ public class EstacionController {
     }
 
     // Parte de Mongo
-    @GetMapping("estacion/status")
+    @GetMapping("/estacion/status")
     public ResponseEntity<List<EstacionMongoDTO>> getAll() {
         ResponseEntity<EstacionMongoDTO[]> response;
         List<EstacionMongoDTO> estaciones = new ArrayList<EstacionMongoDTO>();
@@ -116,7 +116,7 @@ public class EstacionController {
         return new ResponseEntity<List<EstacionMongoDTO>>(estaciones, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @GetMapping("estacion/{id}/status")
+    @GetMapping("/estacion/{id}/status")
     public ResponseEntity<?> getById(@PathVariable Integer id,
             @RequestParam(value = "from", required = false) Optional<String> from,
             @RequestParam(value = "to", required = false) Optional<String> to) {
@@ -137,7 +137,7 @@ public class EstacionController {
         return new ResponseEntity<>(estaciones, HttpStatus.OK);
     }
 
-    @PostMapping("estacion/{id}")
+    @PostMapping("/estacion/{id}")
     public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody EstacionMongoDTO EstacionMongo)
             throws IOException {
         ResponseEntity<EstacionMongoDTO> response;

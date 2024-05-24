@@ -22,7 +22,7 @@ import com.proyectofinal.bicicletasmongo.services.AparcamientoMongoService;
 
 @RestController
 @RequestMapping("aparcamiento")
-public class AparacamientoMongoController {
+public class AparcamientoMongoController {
 
     @Autowired
     AparcamientoMongoService ams;

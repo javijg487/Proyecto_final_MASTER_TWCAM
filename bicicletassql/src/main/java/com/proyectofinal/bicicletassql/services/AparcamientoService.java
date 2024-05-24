@@ -44,10 +44,10 @@ public class AparcamientoService {
             return a;
         }
 
-        a.setCapacidadBici(aparcamiento.getCapacidadBici());
-        a.setDireccion(aparcamiento.getDireccion());
-        a.setLatitud(aparcamiento.getLatitud());
-        a.setLongitud(aparcamiento.getLongitud());
+        a.setBikesCapacity(aparcamiento.getBikesCapacity());
+        a.setDirection(aparcamiento.getDirection());
+        a.setLatitude(aparcamiento.getLatitude());
+        a.setLongitude(aparcamiento.getLongitude());
 
         return this.aparcamientoRepository.save(a);
     }
