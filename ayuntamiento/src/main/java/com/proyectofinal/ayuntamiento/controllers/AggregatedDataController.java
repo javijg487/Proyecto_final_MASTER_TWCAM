@@ -1,10 +1,9 @@
 package com.proyectofinal.ayuntamiento.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -14,11 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.proyectofinal.ayuntamiento.models.AggregatedDataDTO;
 import com.proyectofinal.ayuntamiento.models.AgregadoMongoDTO;
+import com.proyectofinal.ayuntamiento.models.AirQualityDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoCercanoDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoMongoDTO;
+import com.proyectofinal.ayuntamiento.models.EstacionDTO;
+import com.proyectofinal.ayuntamiento.models.EstacionMongoDTO;
 import com.proyectofinal.ayuntamiento.services.AggregatedDataService;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/v1")
 public class AggregatedDataController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AggregatedDataController.class);
     @Autowired
     private RestTemplate restTemplate;
 
@@ -37,8 +40,8 @@ public class AggregatedDataController {
     @Value("${aparcamiento.API.url}")
     private String aparcamientoAPIUrl;
 
-    // @Value("${estacion.Mongo.url}")
-    // private String estacionMongoUrl;
+    @Value("${estacion.API.url}")
+    private String estacionAPIUrl;
 
     @Value("${aggregatedData.url}")
     private String aggregatedDataUrl;
@@ -49,6 +52,7 @@ public class AggregatedDataController {
         AgregadoMongoDTO aggregatedData = new AgregadoMongoDTO();
         try {
             response = restTemplate.getForEntity(aggregatedDataUrl + "/aggregatedData", AgregadoMongoDTO.class);
+
         } catch (ResourceAccessException e) {
             return new ResponseEntity<>(aggregatedData, HttpStatus.SERVICE_UNAVAILABLE);
         }
@@ -104,4 +108,117 @@ public class AggregatedDataController {
         return new ResponseEntity<AparcamientoCercanoDTO>(aparcamiento, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/aggregateData")
+    public ResponseEntity<AgregadoMongoDTO> aggregateData() {
+
+        ResponseEntity<AparcamientoDTO[]> response;
+        ResponseEntity<AparcamientoMongoDTO[]> responseMongo;
+        ResponseEntity<EstacionDTO[]> responseEstacion;
+        ResponseEntity<EstacionMongoDTO[]> responseEstacionMongo;
+        ResponseEntity<AgregadoMongoDTO> responseAggregatedData;
+        AgregadoMongoDTO aggregateDataFinal = new AgregadoMongoDTO();
+        List<AggregatedDataDTO> aggregatedDataList = new ArrayList<>();
+        
+        List<String> fechas = ads.getFecha();
+
+        try {
+            response = restTemplate.getForEntity(aparcamientoAPIUrl + "/api/v1/aparcamientos", AparcamientoDTO[].class);
+            responseEstacion = restTemplate.getForEntity(estacionAPIUrl + "/api/v1/estaciones",
+                    EstacionDTO[].class);
+        } catch (ResourceAccessException e) {
+
+            return new ResponseEntity<>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (response.getStatusCode() == HttpStatus.OK && responseEstacion.getStatusCode() == HttpStatus.OK) {
+            List<AparcamientoDTO> aparcamientosDTO = Arrays.asList(response.getBody());
+            List<EstacionDTO> estacionesDTO = Arrays.asList(responseEstacion.getBody());
+            for (AparcamientoDTO aparcamientoSQL : aparcamientosDTO) {
+                Double distanciaEstacionCercana = Double.MAX_VALUE;
+                Integer idEstacion = 0;
+                Integer idAparcamiento = aparcamientoSQL.getId();
+                for (EstacionDTO estacionSQL : estacionesDTO) {
+                    Double distancia = ads.calculateDistancia(aparcamientoSQL.getLatitude(),
+                            aparcamientoSQL.getLongitude(), estacionSQL.getLatitud(), estacionSQL.getLongitud());
+                    if (distanciaEstacionCercana > distancia) {
+                        distanciaEstacionCercana = distancia;
+                        idEstacion = estacionSQL.getId();
+                    }
+                }
+                String urlEstacionMongo = UriComponentsBuilder
+                        .fromHttpUrl(estacionAPIUrl + "/api/v1/estacion/" + idEstacion + "/status")
+                        .queryParam("from", fechas.get(0))
+                        .queryParam("to", fechas.get(1)).toUriString();
+                try {
+                    responseEstacionMongo = restTemplate.getForEntity(
+                            urlEstacionMongo, EstacionMongoDTO[].class);
+                } catch (ResourceAccessException e) {
+                    return new ResponseEntity<>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
+                }
+
+                AirQualityDTO airQuality = new AirQualityDTO();
+                if (responseEstacionMongo.getStatusCode() == HttpStatus.OK) {
+                    List<EstacionMongoDTO> estacionesMongoDTO = Arrays.asList(responseEstacionMongo.getBody());
+                    float sumaNitricOxi = 0;
+                    float sumaNitroDiox = 0;
+                    float sumaVocs = 0;
+                    float sumaPM25 = 0;
+
+                    for (EstacionMongoDTO estacionMongo : estacionesMongoDTO) {
+                        sumaNitricOxi +=estacionMongo.getNitricOxides();
+                        sumaNitroDiox +=estacionMongo.getNitrogenDioxides();
+                        sumaVocs +=estacionMongo.getVOCsNMHC();
+                        sumaPM25 +=estacionMongo.getPM25();
+                    }
+
+                    airQuality.setNitricOxides(sumaNitricOxi / estacionesMongoDTO.size());
+                    airQuality.setNitrogenDioxides(sumaNitroDiox / estacionesMongoDTO.size());
+                    airQuality.setVOCsNMHC(sumaVocs / estacionesMongoDTO.size());
+                    airQuality.setPM25(sumaPM25 / estacionesMongoDTO.size());
+                }
+
+                // Obtiene media de bicis disponibles aparcamiento
+                String urlAparcamientoMongo = UriComponentsBuilder
+                        .fromHttpUrl(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + idAparcamiento + "/status")
+                        .queryParam("from", fechas.get(0))
+                        .queryParam("to", fechas.get(1)).toUriString();
+                try {
+                    responseMongo = restTemplate.getForEntity(
+                            urlAparcamientoMongo, AparcamientoMongoDTO[].class);
+                } catch (ResourceAccessException e) {
+           
+                    return new ResponseEntity<>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
+                }
+
+                if (responseMongo.getStatusCode() == HttpStatus.OK) {
+                    List<AparcamientoMongoDTO> aparcamientosMongoDTO = Arrays.asList(responseMongo.getBody());
+                    int suma = 0;
+
+                    for (AparcamientoMongoDTO aparcamientoMongo : aparcamientosMongoDTO) {
+                        suma += aparcamientoMongo.getBikesAvailable();
+                    }
+                    AggregatedDataDTO aggregatedData = new AggregatedDataDTO();
+                    aggregatedData.setIdentificador(idAparcamiento);
+                    aggregatedData.setAverageBikesAvailable((float) suma / aparcamientosMongoDTO.size());
+                    aggregatedData.setAirQuality(airQuality);
+                    aggregatedDataList.add(aggregatedData);
+                }
+            }
+            aggregateDataFinal = ads.createAgregadoMongo(aggregateDataFinal, aggregatedDataList);
+            try {
+                responseAggregatedData = restTemplate.postForEntity(aggregatedDataUrl + "/aggregatedData",
+                        aggregateDataFinal,
+                        AgregadoMongoDTO.class);
+            } catch (ResourceAccessException e) {
+                
+                return new ResponseEntity<AgregadoMongoDTO>(new AgregadoMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if (responseAggregatedData.getStatusCode() == HttpStatus.CREATED) {
+                return new ResponseEntity<AgregadoMongoDTO>(aggregateDataFinal, HttpStatus.OK);
+            } else {
+            
+                return new ResponseEntity<AgregadoMongoDTO>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
+            }
+        }
+        return new ResponseEntity<>(aggregateDataFinal, HttpStatus.NOT_FOUND);
+    }
 }
