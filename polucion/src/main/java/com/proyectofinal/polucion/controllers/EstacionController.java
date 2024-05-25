@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
 
 import com.proyectofinal.polucion.models.EstacionDTO;
 import com.proyectofinal.polucion.models.EstacionMongoDTO;
@@ -33,8 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/v1")
 public class EstacionController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(EstacionController.class);
-
+   
     @Autowired
     private RestTemplate restTemplate;
 
@@ -127,7 +124,6 @@ public class EstacionController {
         String URL = UriComponentsBuilder.fromHttpUrl(estacionMongoUrl + "/estacion/" + id + "/status")
                 .queryParamIfPresent("from", from)
                 .queryParamIfPresent("to", to).toUriString();
-        LOGGER.error("URL:" + URL);
         try {
             response = restTemplate.getForEntity(URL, EstacionMongoDTO[].class);
             estaciones = Arrays.asList(response.getBody());
