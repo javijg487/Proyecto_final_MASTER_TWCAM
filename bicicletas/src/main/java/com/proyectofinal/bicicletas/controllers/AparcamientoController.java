@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
@@ -37,8 +36,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/v1")
 public class AparcamientoController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AparcamientoController.class);
 
     @Autowired
     private RestTemplate restTemplate;
