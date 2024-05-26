@@ -1,7 +1,14 @@
 package com.proyectofinal.ayuntamiento.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.proyectofinal.ayuntamiento.models.AggregatedDataDTO;
+import com.proyectofinal.ayuntamiento.models.AgregadoMongoDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoCercanoDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoDTO;
 import com.proyectofinal.ayuntamiento.models.AparcamientoMongoDTO;
@@ -31,6 +38,29 @@ public class AggregatedDataService {
         aparcamiento.setDistance(distancia.floatValue());
 
         return aparcamiento;
+    }
+
+    public List<String> getFecha() {
+        List<String> fechas = new ArrayList<String>();
+        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime oneMonthAgoDate = currentDate.minusMonths(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String formattedCurrentDate = currentDate.format(formatter);
+        String formattedOneMonthAgoDate = oneMonthAgoDate.format(formatter);
+
+        fechas.add(formattedOneMonthAgoDate);
+        fechas.add(formattedCurrentDate);
+
+        return fechas;
+    }
+
+    public AgregadoMongoDTO createAgregadoMongo(AgregadoMongoDTO agregadoMongoDTOMongo, List<AggregatedDataDTO> aggregatedData) {
+        agregadoMongoDTOMongo.setAggregatedData(aggregatedData);
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String formattedString = date.format(formatter);
+        agregadoMongoDTOMongo.setTimeStamp(formattedString);
+        return agregadoMongoDTOMongo;
     }
 
 }

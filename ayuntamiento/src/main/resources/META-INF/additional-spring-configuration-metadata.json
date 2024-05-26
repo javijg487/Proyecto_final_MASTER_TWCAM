@@ -8,5 +8,10 @@
     "name": "aparcamiento.API.url",
     "type": "java.lang.String",
     "description": "URL API de bicicletas"
+  },
+  {
+    "name": "estacion.API.url",
+    "type": "java.lang.String",
+    "description": "URL API de polucion"
   }
 ]}
