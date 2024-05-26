@@ -35,5 +35,5 @@ public class AparcamientoMongoService {
     public AparcamientoMongo findFirstByIdentificadorOrderByTimestampDesc(Integer id){
         return this.amr.findFirstByIdentificadorOrderByTimestampDesc(id);
     }
-    
+
 }

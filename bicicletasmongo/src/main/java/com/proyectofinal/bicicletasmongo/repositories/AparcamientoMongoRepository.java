@@ -12,6 +12,7 @@ public interface AparcamientoMongoRepository extends MongoRepository<Aparcamient
     List<AparcamientoMongo> findByIdentificadorAndTimestampBetween(Integer id, String from, String to);
 
     AparcamientoMongo findFirstByIdentificadorOrderByTimestampDesc(Integer id);
+    
 }
 
 

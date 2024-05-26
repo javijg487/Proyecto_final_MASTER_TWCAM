@@ -15,8 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.slf4j.Logger;
 
@@ -33,6 +39,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/v1")
 public class AparcamientoController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AparcamientoController.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -79,7 +87,7 @@ public class AparcamientoController {
     }
 
     @DeleteMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         try {
             restTemplate.delete(aparcamientoSQLUrl + "/aparcamiento/" + id);
             return new ResponseEntity<Integer>(id, HttpStatus.OK);
@@ -89,7 +97,7 @@ public class AparcamientoController {
     }
 
     @PutMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id,
+    public ResponseEntity<?> editAparcamiento(@PathVariable("id") Integer id,
             @RequestBody AparcamientoDTO aparcamiento) {
         try {
             restTemplate.put(aparcamientoSQLUrl + "/aparcamiento/" + id, aparcamiento);
@@ -169,6 +177,56 @@ public class AparcamientoController {
         }
         return new ResponseEntity<AparcamientoMongoDTO>(new AparcamientoMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
-    
+
+    // CAMBIAR USANDO APARCAMIENTO/{id}/STATUS
+    @GetMapping("/aparcamiento/top10")
+    public ResponseEntity<List<AparcamientoMongoDTO>> getTop10() {
+        OffsetDateTime date = OffsetDateTime.now().minusMonths(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        
+        ResponseEntity<AparcamientoDTO[]> responseSQL;
+        ResponseEntity<AparcamientoMongoDTO[]> responseMongo;
+
+        List<AparcamientoDTO> aparcamientosSQL = new ArrayList<AparcamientoDTO>();
+        List<AparcamientoMongoDTO> aparcamientosMongo = new ArrayList<AparcamientoMongoDTO>();
+        List<AparcamientoMongoDTO> aparcamientosExistentes = new ArrayList<AparcamientoMongoDTO>();
+
+        Comparator<AparcamientoMongoDTO> comparator = Comparator
+                .comparing(AparcamientoMongoDTO::getBikesAvailable, Comparator.reverseOrder())
+                .thenComparing(a -> OffsetDateTime.parse(a.getTimestamp(), formatter), Comparator.reverseOrder());
+
+        try{
+            responseSQL = restTemplate.getForEntity(aparcamientoSQLUrl + "/aparcamientos", AparcamientoDTO[].class);
+            responseMongo = restTemplate.getForEntity(aparcamientoMongoUrl + "/aparcamiento/status", AparcamientoMongoDTO[].class);
+        }catch(ResourceAccessException e){
+            return new ResponseEntity<List<AparcamientoMongoDTO>>(HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+        if(responseSQL.getStatusCode() == HttpStatus.OK && responseMongo.getStatusCode() == HttpStatus.OK){
+            aparcamientosSQL = Arrays.asList(responseSQL.getBody());
+            aparcamientosMongo = Arrays.asList(responseMongo.getBody());
+            
+            for(AparcamientoDTO aparcamiento_SQL : aparcamientosSQL){
+                for(AparcamientoMongoDTO aparcamientoMongo : aparcamientosMongo){
+                    if(aparcamiento_SQL.getId().equals(aparcamientoMongo.getId()) && OffsetDateTime.parse(aparcamientoMongo.getTimestamp(), formatter).isAfter(date)){
+                        aparcamientosExistentes.add(aparcamientoMongo);
+                    }
+                }
+            }
+
+            aparcamientosExistentes.sort(comparator);
+
+            List<AparcamientoMongoDTO> aparcamientosTop10 = new ArrayList<AparcamientoMongoDTO>();
+            Set<Integer> aparcamientosInsertados = new HashSet<Integer>();
+
+            for (AparcamientoMongoDTO aparcamiento : aparcamientosExistentes) {
+                if (aparcamientosInsertados.add(aparcamiento.getId()) && aparcamientosTop10.size() <= 10) {
+                    aparcamientosTop10.add(aparcamiento);
+                }
+            }
+            return new ResponseEntity<List<AparcamientoMongoDTO>>(aparcamientosTop10, HttpStatus.OK);
+        }
+        return new ResponseEntity<List<AparcamientoMongoDTO>>(HttpStatus.SERVICE_UNAVAILABLE);
+    }
 
 }
