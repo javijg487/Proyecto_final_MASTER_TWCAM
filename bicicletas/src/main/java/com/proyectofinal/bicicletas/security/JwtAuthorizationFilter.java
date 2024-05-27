@@ -1,4 +1,4 @@
-package com.proyectofinal.bicicletas.config;
+package com.proyectofinal.bicicletas.security;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -10,8 +10,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,10 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.proyectofinal.bicicletas.services.JwtService;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-	private final static Logger LOGGER = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
+	
 	private JwtService jwtService;
 
 	public JwtAuthorizationFilter(JwtService jwtService) {

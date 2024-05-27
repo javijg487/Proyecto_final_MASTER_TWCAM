@@ -1,4 +1,4 @@
-package com.proyectofinal.bicicletas.config;
+package com.proyectofinal.polucion.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -7,13 +7,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.proyectofinal.bicicletas.security.JwtAuthorizationFilter;
-import com.proyectofinal.bicicletas.services.JwtService;
+import com.proyectofinal.polucion.security.JwtAuthorizationFilter;
+import com.proyectofinal.polucion.services.JwtService;
 
 @Configuration
 public class WebSecurityConfig {
     @Autowired
     private JwtService jwtService;
+
+    
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

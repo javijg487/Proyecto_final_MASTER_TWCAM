@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,8 +44,7 @@ public class UserRestController {
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
-	
-	
+
 	@GetMapping("/myroles")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> getMyRole() {
@@ -55,6 +55,7 @@ public class UserRestController {
 			Object userDetails = authentication.getPrincipal();
 			LOGGER.error("UserDETAIL " + userDetails.toString());
 			return new ResponseEntity<>(userDetails.toString(), HttpStatus.OK);
+
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
