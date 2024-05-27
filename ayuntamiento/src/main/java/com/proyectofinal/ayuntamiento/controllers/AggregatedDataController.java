@@ -64,7 +64,7 @@ public class AggregatedDataController {
     }
 
     @GetMapping("/aparcamientoCercano")
-    public ResponseEntity<AparcamientoCercanoDTO> getMethodName(
+    public ResponseEntity<AparcamientoCercanoDTO> getAparcamientoCercano(
             @RequestParam(value = "lat", required = true) String lat,
             @RequestParam(value = "lon", required = true) String lon) {
 
@@ -86,7 +86,6 @@ public class AggregatedDataController {
                             aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id + "/status",
                             AparcamientoMongoDTO[].class);
                 } catch (ResourceAccessException e) {
-
                     return new ResponseEntity<>(aparcamiento, HttpStatus.SERVICE_UNAVAILABLE);
                 }
                 AparcamientoMongoDTO aparcamientoMongo = responseMongo.getBody()[0];
@@ -156,6 +155,7 @@ public class AggregatedDataController {
                 }
 
                 AirQualityDTO airQuality = new AirQualityDTO();
+
                 if (responseEstacionMongo.getStatusCode() == HttpStatus.OK) {
                     List<EstacionMongoDTO> estacionesMongoDTO = Arrays.asList(responseEstacionMongo.getBody());
                     float sumaNitricOxi = 0;

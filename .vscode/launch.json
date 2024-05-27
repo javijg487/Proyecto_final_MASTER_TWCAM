@@ -112,6 +112,16 @@
             "projectName": "bicicletas",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AutenticacionApplication<autenticacion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.autenticacion.AutenticacionApplication",
+            "projectName": "autenticacion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
