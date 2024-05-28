@@ -44,10 +44,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String access_token = jwtService.generateAccessToken(user.getUsername(), 
 															 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
-		// response.setHeader("access_token", access_token);
-		response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{ \"access_token\": \"" + access_token + "\" }");
+		response.setHeader("access_token", access_token);
+		// response.setContentType("application/json");
+        // response.setCharacterEncoding("UTF-8");
+        // response.getWriter().write("{ \"access_token\": \"" + access_token + "\" }");
 	}
 
 	@Override

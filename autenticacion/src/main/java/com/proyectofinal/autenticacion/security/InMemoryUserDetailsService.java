@@ -64,7 +64,7 @@ public class InMemoryUserDetailsService implements UserDetailsService {
             return new User(user3Name, user3Password, getAuthorities(user3Roles));
         } else if (username.equals(user4Name)) {
             return new User(user4Name, user4Password, getAuthorities(user4Roles));
-        }else {
+        } else {
             throw new UsernameNotFoundException("User not found");
         }
     }

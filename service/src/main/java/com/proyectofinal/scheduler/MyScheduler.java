@@ -15,7 +15,7 @@ public class MyScheduler {
     @Value("${scheduler.url}")
     private String apiUrl;
 
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 20000)
     public void scheduleTask() {
         try{
             String response = restTemplate.getForObject(apiUrl, String.class);
@@ -23,6 +23,5 @@ public class MyScheduler {
         }catch(Exception e){
             System.out.println("Error: " + e.getMessage());
         }
-        
     }
 }

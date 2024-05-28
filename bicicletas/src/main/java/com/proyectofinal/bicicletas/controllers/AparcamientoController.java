@@ -6,6 +6,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +23,9 @@ import java.util.Optional;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
-import java.util.HashSet;
 
+
+import java.util.HashSet;
 
 import com.proyectofinal.bicicletas.models.AparcamientoDTO;
 import com.proyectofinal.bicicletas.models.AparcamientoMongoDTO;
@@ -32,6 +36,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("api/v1")
@@ -45,6 +50,9 @@ public class AparcamientoController {
 
     @Value("${bicicletas.Mongo.url}")
     private String aparcamientoMongoUrl;
+
+    @Value("${autenticacion.url}")
+    private String autenticacionUrl;
 
     // Parte de SQL
     @GetMapping("/aparcamientos")
@@ -65,20 +73,40 @@ public class AparcamientoController {
     }
 
     @PostMapping("/aparcamiento")
-    public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento) throws IOException {
+    public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento,
+            @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<AparcamientoDTO> response;
+        ResponseEntity<String> responseToken;
 
         try {
             response = restTemplate.postForEntity(aparcamientoSQLUrl + "/aparcamiento", Aparcamiento,
                     AparcamientoDTO.class);
         } catch (ResourceAccessException e) {
-            return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+            return new ResponseEntity<>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
         }
-        if (response.getStatusCode() == HttpStatus.CREATED) {
 
-            return new ResponseEntity<AparcamientoDTO>(response.getBody(), HttpStatus.CREATED);
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Authorization",  authorizationHeader);
+                HttpEntity<String> request = new HttpEntity<>(headers);
+                responseToken = restTemplate.exchange(
+                        autenticacionUrl + "/api/v1/createAparcamiento", HttpMethod.GET, request,  String.class );
+
+                if (responseToken.getStatusCode() == HttpStatus.OK) {
+                    HttpHeaders responseHeaders = new HttpHeaders();
+                    responseHeaders.set("access_token_Aparcamiento", responseToken.getBody());
+
+                    return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(new AparcamientoDTO(), HttpStatus.UNAUTHORIZED);
+                }
+            } catch (ResourceAccessException e) {
+                return new ResponseEntity<>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+            }
         }
-        return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+
+        return new ResponseEntity<>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @DeleteMapping("/aparcamiento/{id}")
@@ -128,9 +156,10 @@ public class AparcamientoController {
     }
 
     @PostMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo) throws IOException {
+    public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo)
+            throws IOException {
         ResponseEntity<AparcamientoMongoDTO> response;
-        boolean idEncontrado  = false;
+        boolean idEncontrado = false;
         List<AparcamientoDTO> aparcamientos = findAparcamientos().getBody();
 
         if (!aparcamientos.isEmpty()) {
@@ -142,12 +171,13 @@ public class AparcamientoController {
             }
         }
 
-        if(idEncontrado){
+        if (idEncontrado) {
             try {
                 response = restTemplate.postForEntity(aparcamientoMongoUrl + "/aparcamiento/" + id, aparcamientoMongo,
                         AparcamientoMongoDTO.class);
             } catch (ResourceAccessException e) {
-                return new ResponseEntity<AparcamientoMongoDTO>(new AparcamientoMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+                return new ResponseEntity<AparcamientoMongoDTO>(new AparcamientoMongoDTO(),
+                        HttpStatus.SERVICE_UNAVAILABLE);
             }
             if (response.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<AparcamientoMongoDTO>(response.getBody(), HttpStatus.CREATED);
@@ -161,7 +191,7 @@ public class AparcamientoController {
     public ResponseEntity<List<AparcamientoMongoDTO>> getTop10() {
         OffsetDateTime date = OffsetDateTime.now().minusMonths(1);
         DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-        
+
         ResponseEntity<AparcamientoDTO[]> responseSQL;
         ResponseEntity<AparcamientoMongoDTO[]> responseMongo;
 

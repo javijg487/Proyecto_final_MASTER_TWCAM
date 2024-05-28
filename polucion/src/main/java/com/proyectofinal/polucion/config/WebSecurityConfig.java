@@ -28,8 +28,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/estacion/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/estacion/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "api/v1/estacion/{id}").hasRole("ESTACION")
-                .requestMatchers(HttpMethod.GET, "api/v1/estaciones").permitAll()
-                .requestMatchers(HttpMethod.GET, "api/v1/estacion/{id}/status").permitAll())
+                .requestMatchers(HttpMethod.GET, "api/v1/estaciones", "api/v1/estacion/{id}/status").permitAll())
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

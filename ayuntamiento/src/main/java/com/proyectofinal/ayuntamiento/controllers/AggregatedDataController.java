@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
@@ -55,9 +56,6 @@ public class AggregatedDataController {
 
     @Value("${aggregatedData.url}")
     private String aggregatedDataUrl;
-
-    @Value("${access_token_Admin}")
-    private String access_token_Admin;
 
     @GetMapping("/aggregatedData")
     public ResponseEntity<AgregadoMongoDTO> findAggregatedData() {
@@ -235,31 +233,34 @@ public class AggregatedDataController {
         return new ResponseEntity<>(aggregateDataFinal, HttpStatus.NOT_FOUND);
     }
 
-    
     @PostMapping("/estacion")
-    public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion) throws IOException {
+    public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion,
+            @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<EstacionDTO> response;
 
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", authorizationHeader);
             HttpEntity<EstacionDTO> entity = new HttpEntity<>(Estacion, headers);
-            response = restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion",  HttpMethod.POST, entity, EstacionDTO.class);
+            response = restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion", HttpMethod.POST, entity,
+                    EstacionDTO.class);
         } catch (ResourceAccessException e) {
             return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
         }
         if (response.getStatusCode() == HttpStatus.CREATED) {
-
-            return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("access_token_Estacion", response.getHeaders().get("access_token_Estacion").get(0));
+            return new ResponseEntity<EstacionDTO>(response.getBody(), responseHeaders, HttpStatus.CREATED);
         }
         return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @PutMapping("/estacion/{id}")
-    public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion) {
+    public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion,
+            @RequestHeader("Authorization") String authorizationHeader) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", "Bearer " + authorizationHeader);
             HttpEntity<EstacionDTO> entity = new HttpEntity<>(estacion, headers);
             restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.PUT, entity, Integer.class);
             estacion.setId(id);
@@ -270,10 +271,11 @@ public class AggregatedDataController {
     }
 
     @DeleteMapping("/estacion/{id}")
-    public ResponseEntity<?> deleteEstacion(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteEstacion(@PathVariable Integer id,
+            @RequestHeader("Authorization") String authorizationHeader) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", "Bearer " + authorizationHeader);
             HttpEntity<EstacionDTO> entity = new HttpEntity<>(headers);
             restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.DELETE, entity, Integer.class);
             return new ResponseEntity<Integer>(id, HttpStatus.OK);
@@ -283,52 +285,58 @@ public class AggregatedDataController {
     }
 
     @PostMapping("/aparcamiento")
-    public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento) throws IOException {
+    public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento,
+            @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<AparcamientoDTO> response;
 
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", authorizationHeader);
             HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(Aparcamiento, headers);
 
             response = restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento", HttpMethod.POST, entity,
                     AparcamientoDTO.class);
+
         } catch (ResourceAccessException e) {
             return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
         }
         if (response.getStatusCode() == HttpStatus.CREATED) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("access_token_Aparcamiento", response.getHeaders().get("access_token_Aparcamiento").get(0));
 
-            return new ResponseEntity<AparcamientoDTO>(response.getBody(), HttpStatus.CREATED);
+            return new ResponseEntity<AparcamientoDTO>(response.getBody(), responseHeaders, HttpStatus.CREATED);
         }
         return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-   
     @PutMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento){
-        try{
+    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", authorizationHeader);
             HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(aparcamiento, headers);
-            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.PUT, entity, Integer.class);
+            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.PUT, entity,
+                    Integer.class);
             aparcamiento.setId(id);
             return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.OK);
-        }catch(ResourceAccessException e){
+        } catch (ResourceAccessException e) {
             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
     @DeleteMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> deleteAparcamiento(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> deleteAparcamiento(@PathVariable("id") Integer id,
+            @RequestHeader("Authorization") String authorizationHeader) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + access_token_Admin);
+            headers.set("Authorization", authorizationHeader);
             HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(headers);
-            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.DELETE, entity, Integer.class);
+            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.DELETE, entity,
+                    Integer.class);
             return new ResponseEntity<Integer>(id, HttpStatus.OK);
         } catch (ResourceAccessException e) {
             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }
-    
