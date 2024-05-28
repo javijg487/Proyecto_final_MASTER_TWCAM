@@ -23,7 +23,7 @@ public class WebSecurityConfig {
                 .formLogin(login -> login.disable())
                 .logout(logout -> logout.disable())
                 .authorizeHttpRequests(requests -> requests
-						.requestMatchers("/api/v1/aparcamientos").hasRole("ADMIN")
+						.requestMatchers("/api/v1/aparcamiento").hasRole("ADMIN")
                         .requestMatchers("/api/v1/aparcamientos/**").hasRole("ADMIN")) 
 				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
