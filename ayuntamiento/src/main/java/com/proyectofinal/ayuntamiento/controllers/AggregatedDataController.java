@@ -1,6 +1,7 @@
 package com.proyectofinal.ayuntamiento.controllers;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +55,9 @@ public class AggregatedDataController {
 
     @Value("${aggregatedData.url}")
     private String aggregatedDataUrl;
+
+    @Value("${access_token_Admin}")
+    private String access_token_Admin;
 
     @GetMapping("/aggregatedData")
     public ResponseEntity<AgregadoMongoDTO> findAggregatedData() {
@@ -123,7 +130,7 @@ public class AggregatedDataController {
         ResponseEntity<AgregadoMongoDTO> responseAggregatedData;
         AgregadoMongoDTO aggregateDataFinal = new AgregadoMongoDTO();
         List<AggregatedDataDTO> aggregatedDataList = new ArrayList<>();
-        
+
         List<String> fechas = ads.getFecha();
 
         try {
@@ -170,10 +177,10 @@ public class AggregatedDataController {
                     float sumaPM25 = 0;
 
                     for (EstacionMongoDTO estacionMongo : estacionesMongoDTO) {
-                        sumaNitricOxi +=estacionMongo.getNitricOxides();
-                        sumaNitroDiox +=estacionMongo.getNitrogenDioxides();
-                        sumaVocs +=estacionMongo.getVOCsNMHC();
-                        sumaPM25 +=estacionMongo.getPM25();
+                        sumaNitricOxi += estacionMongo.getNitricOxides();
+                        sumaNitroDiox += estacionMongo.getNitrogenDioxides();
+                        sumaVocs += estacionMongo.getVOCsNMHC();
+                        sumaPM25 += estacionMongo.getPM25();
                     }
 
                     airQuality.setNitricOxides(sumaNitricOxi / estacionesMongoDTO.size());
@@ -191,7 +198,7 @@ public class AggregatedDataController {
                     responseMongo = restTemplate.getForEntity(
                             urlAparcamientoMongo, AparcamientoMongoDTO[].class);
                 } catch (ResourceAccessException e) {
-           
+
                     return new ResponseEntity<>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
                 }
 
@@ -215,17 +222,38 @@ public class AggregatedDataController {
                         aggregateDataFinal,
                         AgregadoMongoDTO.class);
             } catch (ResourceAccessException e) {
-                
+
                 return new ResponseEntity<AgregadoMongoDTO>(new AgregadoMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
             }
             if (responseAggregatedData.getStatusCode() == HttpStatus.CREATED) {
                 return new ResponseEntity<AgregadoMongoDTO>(aggregateDataFinal, HttpStatus.OK);
             } else {
-            
+
                 return new ResponseEntity<AgregadoMongoDTO>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
             }
         }
         return new ResponseEntity<>(aggregateDataFinal, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/aparcamiento")
+    public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento) throws IOException {
+        ResponseEntity<AparcamientoDTO> response;
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(Aparcamiento, headers);
+
+            response = restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento", HttpMethod.POST, entity,
+                    AparcamientoDTO.class);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+
+            return new ResponseEntity<AparcamientoDTO>(response.getBody(), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @PostMapping("/estacion")
@@ -273,4 +301,15 @@ public class AggregatedDataController {
             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
+
+    @PutMapping("/aparcamiento/{id}")
+    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento){
+        try{
+            restTemplate.put(aparcamientoAPIUrl + "api/v1/aparcamiento/" + id, aparcamiento);
+            return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.OK);
+        }catch(ResourceAccessException e){
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
 }
+    
