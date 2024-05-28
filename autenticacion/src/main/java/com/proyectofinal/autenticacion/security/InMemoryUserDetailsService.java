@@ -43,6 +43,15 @@ public class InMemoryUserDetailsService implements UserDetailsService {
     @Value("${app.security.user3.roles}")
     private String user3Roles;
 
+    @Value("${app.security.user4.name}")
+    private String user4Name;
+
+    @Value("${app.security.user4.password}")
+    private String user4Password;
+
+    @Value("${app.security.user4.roles}")
+    private String user4Roles;
+
     
 
     @Override
@@ -53,7 +62,9 @@ public class InMemoryUserDetailsService implements UserDetailsService {
             return new User(user2Name, user2Password, getAuthorities(user2Roles));
         } else if (username.equals(user3Name)) {
             return new User(user3Name, user3Password, getAuthorities(user3Roles));
-        } else {
+        } else if (username.equals(user4Name)) {
+            return new User(user4Name, user4Password, getAuthorities(user4Roles));
+        }else {
             throw new UsernameNotFoundException("User not found");
         }
     }
