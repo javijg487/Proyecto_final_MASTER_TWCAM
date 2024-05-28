@@ -24,16 +24,19 @@ public class WebSecurityConfig {
                 .formLogin(login -> login.disable())
                 .logout(logout -> logout.disable())
                 .authorizeHttpRequests(requests -> requests
-						.requestMatchers(HttpMethod.GET,"api/v1/aparcamientoCercano").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/aggregateData").hasRole("SERVICIO")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/aggregatedData").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/estacion").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/estacion/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/estacion/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/aparcamiento").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/aparcamiento/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/aparcamiento/{id}").hasRole("ADMIN")) 
-				.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+                        .requestMatchers(
+                                "api/v1/aparcamientoCercano",
+                                "/api/v1/aggregatedData")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/aggregateData").hasAnyRole( "SERVICIO", "ADMIN")
+                        .requestMatchers(
+                                "/api/v1/aparcamiento",
+                                "/api/v1/aparcamiento/*",
+                                "/api/v1/estacion",
+                                "/api/v1/estacion/*")
+                        .hasRole("ADMIN"))
+
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -235,6 +235,53 @@ public class AggregatedDataController {
         return new ResponseEntity<>(aggregateDataFinal, HttpStatus.NOT_FOUND);
     }
 
+    
+    @PostMapping("/estacion")
+    public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion) throws IOException {
+        ResponseEntity<EstacionDTO> response;
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<EstacionDTO> entity = new HttpEntity<>(Estacion, headers);
+            response = restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion",  HttpMethod.POST, entity, EstacionDTO.class);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+
+            return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @PutMapping("/estacion/{id}")
+    public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<EstacionDTO> entity = new HttpEntity<>(estacion, headers);
+            restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.PUT, entity, Integer.class);
+            estacion.setId(id);
+            return new ResponseEntity<EstacionDTO>(estacion, HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @DeleteMapping("/estacion/{id}")
+    public ResponseEntity<?> deleteEstacion(@PathVariable Integer id) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<EstacionDTO> entity = new HttpEntity<>(headers);
+            restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.DELETE, entity, Integer.class);
+            return new ResponseEntity<Integer>(id, HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
     @PostMapping("/aparcamiento")
     public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento) throws IOException {
         ResponseEntity<AparcamientoDTO> response;
@@ -256,38 +303,17 @@ public class AggregatedDataController {
         return new ResponseEntity<AparcamientoDTO>(new AparcamientoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @PostMapping("/estacion")
-    public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion) throws IOException {
-        ResponseEntity<EstacionDTO> response;
-
-        try {
-            response = restTemplate.postForEntity(estacionAPIUrl + "api/v1/estacion", Estacion, EstacionDTO.class);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
-        }
-        if (response.getStatusCode() == HttpStatus.CREATED) {
-
-            return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
-        }
-        return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
-    @DeleteMapping("/estacion/{id}")
-    public ResponseEntity<?> deleteEstacion(@PathVariable Integer id) {
-        try {
-            restTemplate.delete(estacionAPIUrl + "api/v1/estacion/" + id);
-            return new ResponseEntity<Integer>(id, HttpStatus.OK);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
-        }
-    }
-
-    @PutMapping("/estacion/{id}")
-    public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion) {
-        try {
-            restTemplate.put(estacionAPIUrl + "api/v1/estacion/" + id, estacion);
-            return new ResponseEntity<EstacionDTO>(estacion, HttpStatus.OK);
-        } catch (ResourceAccessException e) {
+   
+    @PutMapping("/aparcamiento/{id}")
+    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento){
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(aparcamiento, headers);
+            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.PUT, entity, Integer.class);
+            aparcamiento.setId(id);
+            return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.OK);
+        }catch(ResourceAccessException e){
             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
@@ -295,19 +321,12 @@ public class AggregatedDataController {
     @DeleteMapping("/aparcamiento/{id}")
     public ResponseEntity<?> deleteAparcamiento(@PathVariable("id") Integer id) {
         try {
-            restTemplate.delete(aparcamientoAPIUrl + "api/v1/aparcamiento/" + id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + access_token_Admin);
+            HttpEntity<AparcamientoDTO> entity = new HttpEntity<>(headers);
+            restTemplate.exchange(aparcamientoAPIUrl + "/api/v1/aparcamiento/" + id, HttpMethod.DELETE, entity, Integer.class);
             return new ResponseEntity<Integer>(id, HttpStatus.OK);
         } catch (ResourceAccessException e) {
-            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
-        }
-    }
-
-    @PutMapping("/aparcamiento/{id}")
-    public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento){
-        try{
-            restTemplate.put(aparcamientoAPIUrl + "api/v1/aparcamiento/" + id, aparcamiento);
-            return new ResponseEntity<AparcamientoDTO>(aparcamiento, HttpStatus.OK);
-        }catch(ResourceAccessException e){
             return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
