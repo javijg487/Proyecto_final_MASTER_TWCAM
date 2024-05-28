@@ -6,6 +6,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("api/v1")
@@ -40,6 +44,9 @@ public class EstacionController {
 
     @Value("${estacion.Mongo.url}")
     private String estacionMongoUrl;
+
+    @Value("${autenticacion.url}")
+    private String autenticacionUrl;
 
     // Parte de SQL
     @GetMapping("/estaciones")
@@ -60,17 +67,35 @@ public class EstacionController {
     }
 
     @PostMapping("/estacion")
-    public ResponseEntity<?> create(@RequestBody EstacionDTO Estacion) throws IOException {
+    public ResponseEntity<?> create(@RequestBody EstacionDTO Estacion,@RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<EstacionDTO> response;
+        ResponseEntity<String> responseToken;
 
         try {
             response = restTemplate.postForEntity(estacionSQLUrl + "/estacion", Estacion, EstacionDTO.class);
         } catch (ResourceAccessException e) {
             return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
         }
-        if (response.getStatusCode() == HttpStatus.CREATED) {
 
-            return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
+       if (response.getStatusCode() == HttpStatus.CREATED) {
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Authorization",  authorizationHeader);
+                HttpEntity<String> request = new HttpEntity<>(headers);
+                responseToken = restTemplate.exchange(
+                        autenticacionUrl + "/api/v1/createEstacion", HttpMethod.GET, request,  String.class );
+
+                if (responseToken.getStatusCode() == HttpStatus.OK) {
+                    HttpHeaders responseHeaders = new HttpHeaders();
+                    responseHeaders.set("access_token_Estacion", responseToken.getBody());
+
+                    return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(new EstacionDTO(), HttpStatus.UNAUTHORIZED);
+                }
+            } catch (ResourceAccessException e) {
+                return new ResponseEntity<>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+            }
         }
         return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
