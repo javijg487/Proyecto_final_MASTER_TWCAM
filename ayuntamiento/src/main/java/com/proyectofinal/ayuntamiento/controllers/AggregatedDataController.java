@@ -1,5 +1,6 @@
 package com.proyectofinal.ayuntamiento.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
@@ -220,5 +226,51 @@ public class AggregatedDataController {
             }
         }
         return new ResponseEntity<>(aggregateDataFinal, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/estacion")
+    public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion) throws IOException {
+        ResponseEntity<EstacionDTO> response;
+
+        try {
+            response = restTemplate.postForEntity(estacionAPIUrl + "api/v1/estacion", Estacion, EstacionDTO.class);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+
+            return new ResponseEntity<EstacionDTO>(response.getBody(), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<EstacionDTO>(new EstacionDTO(), HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @DeleteMapping("/estacion/{id}")
+    public ResponseEntity<?> deleteEstacion(@PathVariable Integer id) {
+        try {
+            restTemplate.delete(estacionAPIUrl + "api/v1/estacion/" + id);
+            return new ResponseEntity<Integer>(id, HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @PutMapping("/estacion/{id}")
+    public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion) {
+        try {
+            restTemplate.put(estacionAPIUrl + "api/v1/estacion/" + id, estacion);
+            return new ResponseEntity<EstacionDTO>(estacion, HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @DeleteMapping("/aparcamiento/{id}")
+    public ResponseEntity<?> deleteAparcamiento(@PathVariable("id") Integer id) {
+        try {
+            restTemplate.delete(aparcamientoAPIUrl + "api/v1/aparcamiento/" + id);
+            return new ResponseEntity<Integer>(id, HttpStatus.OK);
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Not available", HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }

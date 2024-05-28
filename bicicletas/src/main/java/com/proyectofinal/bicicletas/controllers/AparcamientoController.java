@@ -103,24 +103,6 @@ public class AparcamientoController {
     }
 
     // Parte de Mongo
-    //Este creo que sobra
-    @GetMapping("/aparcamiento/status")
-    public ResponseEntity<List<AparcamientoMongoDTO>> getAll() {
-        ResponseEntity<AparcamientoMongoDTO[]> response;
-        List<AparcamientoMongoDTO> aparcamientos = new ArrayList<AparcamientoMongoDTO>();
-        try {
-            response = restTemplate.getForEntity(aparcamientoMongoUrl + "/aparcamiento/status",
-                    AparcamientoMongoDTO[].class);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity<>(aparcamientos, HttpStatus.SERVICE_UNAVAILABLE);
-        }
-        if (response.getStatusCode() == HttpStatus.OK) {
-            aparcamientos = Arrays.asList(response.getBody());
-            return new ResponseEntity<List<AparcamientoMongoDTO>>(aparcamientos, HttpStatus.OK);
-        }
-        return new ResponseEntity<List<AparcamientoMongoDTO>>(aparcamientos, HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
     @GetMapping("/aparcamiento/{id}/status")
     public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {

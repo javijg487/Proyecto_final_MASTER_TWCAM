@@ -97,22 +97,6 @@ public class EstacionController {
     }
 
     // Parte de Mongo
-    @GetMapping("/estacion/status")
-    public ResponseEntity<List<EstacionMongoDTO>> getAll() {
-        ResponseEntity<EstacionMongoDTO[]> response;
-        List<EstacionMongoDTO> estaciones = new ArrayList<EstacionMongoDTO>();
-        try {
-            response = restTemplate.getForEntity(estacionMongoUrl + "/estacion/status", EstacionMongoDTO[].class);
-        } catch (ResourceAccessException e) {
-            return new ResponseEntity<>(estaciones, HttpStatus.SERVICE_UNAVAILABLE);
-        }
-        if (response.getStatusCode() == HttpStatus.OK) {
-            estaciones = Arrays.asList(response.getBody());
-            return new ResponseEntity<List<EstacionMongoDTO>>(estaciones, HttpStatus.OK);
-        }
-        return new ResponseEntity<List<EstacionMongoDTO>>(estaciones, HttpStatus.SERVICE_UNAVAILABLE);
-    }
-
     @GetMapping("/estacion/{id}/status")
     public ResponseEntity<?> getById(@PathVariable Integer id,
             @RequestParam(value = "from", required = false) Optional<String> from,
