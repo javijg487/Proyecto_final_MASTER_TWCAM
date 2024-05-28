@@ -103,6 +103,7 @@ public class AparcamientoController {
     }
 
     // Parte de Mongo
+    //Este creo que sobra
     @GetMapping("/aparcamiento/status")
     public ResponseEntity<List<AparcamientoMongoDTO>> getAll() {
         ResponseEntity<AparcamientoMongoDTO[]> response;

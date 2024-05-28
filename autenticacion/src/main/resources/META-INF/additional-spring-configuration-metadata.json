@@ -15,6 +15,36 @@
     "description": "A description for 'sys.token.duration'"
   },
   {
+    "name": "app.security.user4.roles",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user4.roles'"
+  },
+{
+    "name": "app.security.user4.password",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user4.password'"
+  },
+{
+    "name": "app.security.user4.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user4.name'"
+  },
+  {
+    "name": "app.security.user3.roles",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user3.roles'"
+  },
+{
+    "name": "app.security.user3.password",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user3.password'"
+  },
+{
+    "name": "app.security.user3.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.user3.name'"
+  },
+  {
     "name": "app.security.user2.roles",
     "type": "java.lang.String",
     "description": "A description for 'app.security.user2.roles'"

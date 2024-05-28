@@ -34,12 +34,25 @@ public class InMemoryUserDetailsService implements UserDetailsService {
     @Value("${app.security.user2.roles}")
     private String user2Roles;
 
+    @Value("${app.security.user3.name}")
+    private String user3Name;
+
+    @Value("${app.security.user3.password}")
+    private String user3Password;
+
+    @Value("${app.security.user3.roles}")
+    private String user3Roles;
+
+    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username.equals(userName)) {
             return new User(userName, userPassword, getAuthorities(userRoles));
         } else if (username.equals(user2Name)) {
             return new User(user2Name, user2Password, getAuthorities(user2Roles));
+        } else if (username.equals(user3Name)) {
+            return new User(user3Name, user3Password, getAuthorities(user3Roles));
         } else {
             throw new UsernameNotFoundException("User not found");
         }
