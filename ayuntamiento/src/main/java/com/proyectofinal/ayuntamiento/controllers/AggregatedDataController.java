@@ -260,7 +260,7 @@ public class AggregatedDataController {
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + authorizationHeader);
+            headers.set("Authorization", authorizationHeader);
             HttpEntity<EstacionDTO> entity = new HttpEntity<>(estacion, headers);
             restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.PUT, entity, Integer.class);
             estacion.setId(id);
@@ -275,7 +275,7 @@ public class AggregatedDataController {
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + authorizationHeader);
+            headers.set("Authorization",authorizationHeader);
             HttpEntity<EstacionDTO> entity = new HttpEntity<>(headers);
             restTemplate.exchange(estacionAPIUrl + "/api/v1/estacion/" + id, HttpMethod.DELETE, entity, Integer.class);
             return new ResponseEntity<Integer>(id, HttpStatus.OK);
