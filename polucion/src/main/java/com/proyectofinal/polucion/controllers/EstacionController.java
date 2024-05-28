@@ -123,7 +123,7 @@ public class EstacionController {
 
     // Parte de Mongo
     @GetMapping("/estacion/{id}/status")
-    public ResponseEntity<?> getById(@PathVariable Integer id,
+    public ResponseEntity<?> getById(@PathVariable("id") Integer id,
             @RequestParam(value = "from", required = false) Optional<String> from,
             @RequestParam(value = "to", required = false) Optional<String> to) {
 

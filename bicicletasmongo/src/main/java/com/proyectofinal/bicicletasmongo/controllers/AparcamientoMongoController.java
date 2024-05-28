@@ -64,8 +64,8 @@ public class AparcamientoMongoController {
     // }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> create(@RequestBody AparcamientoMongo aparcamientoMongo) throws IOException {
-        AparcamientoMongo am = this.ams.create(aparcamientoMongo);
+    public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody AparcamientoMongo aparcamientoMongo) throws IOException {
+        AparcamientoMongo am = this.ams.create(aparcamientoMongo, id);
 
         if (am == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

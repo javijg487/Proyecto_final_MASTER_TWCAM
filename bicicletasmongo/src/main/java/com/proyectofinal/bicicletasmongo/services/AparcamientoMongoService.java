@@ -1,4 +1,6 @@
 package com.proyectofinal.bicicletasmongo.services;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,18 @@ public class AparcamientoMongoService {
         return this.amr.findAllByIdentificador(id);
     }
     
-    public AparcamientoMongo create(AparcamientoMongo a){
-        return this.amr.save(a);
+    public AparcamientoMongo create(AparcamientoMongo a, Integer id){
+        try{
+            LocalDateTime date = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			String formattedString = date.format(formatter);
+            a.setIdentificador(id);
+            a.setTimestamp(formattedString);
+            AparcamientoMongo am = this.amr.save(a);
+            return am;
+        }catch (IllegalArgumentException e) {
+			return null;
+		}
     }
 
     public List<AparcamientoMongo> findByIdAndTimestampBetween(Integer id, String from, String to){
