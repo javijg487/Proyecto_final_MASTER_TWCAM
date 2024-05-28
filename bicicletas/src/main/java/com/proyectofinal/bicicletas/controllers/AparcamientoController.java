@@ -166,33 +166,34 @@ public class AparcamientoController {
         ResponseEntity<AparcamientoMongoDTO[]> responseMongo;
 
         List<AparcamientoDTO> aparcamientosSQL = new ArrayList<AparcamientoDTO>();
-        List<AparcamientoMongoDTO> aparcamientosMongo = new ArrayList<AparcamientoMongoDTO>();
+        List<AparcamientoMongoDTO> aparcamientoMongo = new ArrayList<AparcamientoMongoDTO>();
         List<AparcamientoMongoDTO> aparcamientosExistentes = new ArrayList<AparcamientoMongoDTO>();
-
-        Comparator<AparcamientoMongoDTO> comparator = Comparator
-                .comparing(AparcamientoMongoDTO::getBikesAvailable, Comparator.reverseOrder())
-                .thenComparing(a -> OffsetDateTime.parse(a.getTimestamp(), formatter), Comparator.reverseOrder());
 
         try{
             responseSQL = restTemplate.getForEntity(aparcamientoSQLUrl + "/aparcamientos", AparcamientoDTO[].class);
-            responseMongo = restTemplate.getForEntity(aparcamientoMongoUrl + "/aparcamiento/status", AparcamientoMongoDTO[].class);
         }catch(ResourceAccessException e){
             return new ResponseEntity<List<AparcamientoMongoDTO>>(HttpStatus.SERVICE_UNAVAILABLE);
         }
 
-        if(responseSQL.getStatusCode() == HttpStatus.OK && responseMongo.getStatusCode() == HttpStatus.OK){
+        if(responseSQL.getStatusCode() == HttpStatus.OK){
             aparcamientosSQL = Arrays.asList(responseSQL.getBody());
-            aparcamientosMongo = Arrays.asList(responseMongo.getBody());
             
             for(AparcamientoDTO aparcamiento_SQL : aparcamientosSQL){
-                for(AparcamientoMongoDTO aparcamientoMongo : aparcamientosMongo){
-                    if(aparcamiento_SQL.getId().equals(aparcamientoMongo.getId()) && OffsetDateTime.parse(aparcamientoMongo.getTimestamp(), formatter).isAfter(date)){
-                        aparcamientosExistentes.add(aparcamientoMongo);
+                Integer idAparcamiento = aparcamiento_SQL.getId();
+
+                try{
+                    responseMongo = restTemplate.getForEntity(aparcamientoMongoUrl + "/aparcamiento/"+ idAparcamiento +"/status", AparcamientoMongoDTO[].class);
+                }catch(ResourceAccessException e){
+                    return new ResponseEntity<List<AparcamientoMongoDTO>>(HttpStatus.SERVICE_UNAVAILABLE);
+                }
+
+                if (responseMongo.getStatusCode() == HttpStatus.OK){
+                    aparcamientoMongo = Arrays.asList(responseMongo.getBody());
+                    if(aparcamiento_SQL.getId().equals(aparcamientoMongo.get(0).getId()) && OffsetDateTime.parse(aparcamientoMongo.get(0).getTimestamp(), formatter).isAfter(date)){
+                        aparcamientosExistentes.add(aparcamientoMongo.get(0));
                     }
                 }
             }
-
-            aparcamientosExistentes.sort(comparator);
 
             List<AparcamientoMongoDTO> aparcamientosTop10 = new ArrayList<AparcamientoMongoDTO>();
             Set<Integer> aparcamientosInsertados = new HashSet<Integer>();
