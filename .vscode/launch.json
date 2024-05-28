@@ -50,7 +50,8 @@
             "mainClass": "com.proyectofinal.bicicletasmongo.BicicletasmongoApplication",
             "projectName": "bicicletasmongo",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
@@ -60,7 +61,8 @@
             "mainClass": "com.proyectofinal.polucionmongo.PolucionmongoApplication",
             "projectName": "polucionmongo",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
@@ -70,7 +72,8 @@
             "mainClass": "com.proyectofinal.polucion.PolucionApplication",
             "projectName": "polucion",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
@@ -91,7 +94,8 @@
             "mainClass": "com.proyectofinal.ayuntamiento.AyuntamientoApplication",
             "projectName": "ayuntamiento",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
@@ -101,7 +105,8 @@
             "mainClass": "com.proyectofinal.bicicletas.BicicletasApplication",
             "projectName": "bicicletas",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
         },
         {
             "type": "java",
@@ -120,6 +125,17 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.proyectofinal.autenticacion.AutenticacionApplication",
             "projectName": "autenticacion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceApplication<service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyectofinal.service.ServiceApplication",
+            "projectName": "service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
