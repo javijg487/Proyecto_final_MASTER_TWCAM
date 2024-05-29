@@ -10,8 +10,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,10 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.proyectofinal.autenticacion.services.JwtService;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
-	private final static Logger LOGGER = LoggerFactory.getLogger(CustomAuthorizationFilter.class);
 	private JwtService jwtService;
 
 	public CustomAuthorizationFilter(JwtService jwtService) {
