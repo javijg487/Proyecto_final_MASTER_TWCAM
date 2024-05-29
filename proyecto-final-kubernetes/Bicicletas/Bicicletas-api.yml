@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bicicletas-api-deployment
+  namespace: proyecto-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bicicletas-api-deployment
+  template:
+    metadata:
+      labels:
+        app: bicicletas-api-deployment
+    spec:
+      containers:
+      - name: bicicletas-api-deployment
+        image: javijg487/app-bicicletas-api:latest
+        ports:
+        - containerPort: 8080

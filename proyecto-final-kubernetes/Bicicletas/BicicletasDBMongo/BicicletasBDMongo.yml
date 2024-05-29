@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bicicletas-bd-mongo
+  namespace: proyecto-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bicicletas-bd-mongo
+  template:
+    metadata:
+      labels:
+        app: bicicletas-bd-mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:4.2
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/db-mongo
+          name: mongo-storage
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: pvc-bicicletas-bd-mongo
