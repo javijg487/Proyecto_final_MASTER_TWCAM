@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bicicletas-bd-mongo
+  name: bicicletas-bd-mongo-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bicicletas-bd-mongo
+      app: bicicletas-bd-mongo-deployment
   template:
     metadata:
       labels:
-        app: bicicletas-bd-mongo
+        app: bicicletas-bd-mongo-deployment
     spec:
       containers:
       - name: mongo

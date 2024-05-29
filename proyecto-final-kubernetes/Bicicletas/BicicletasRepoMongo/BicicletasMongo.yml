@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bicicletas-mongo
+  name: bicicletas-mongo-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bicicletas-mongo
+      app: bicicletas-mongo-deployment
   template:
     metadata:
       labels:
-        app: bicicletas-mongo
+        app: bicicletas-mongo-deployment
     spec:
       containers:
-      - name: bicicletas-mongo
+      - name: bicicletas-mongo-deployment
         image: javijg487/app-bicicletas-repo-mongo:latest
         ports:
         - containerPort: 8080

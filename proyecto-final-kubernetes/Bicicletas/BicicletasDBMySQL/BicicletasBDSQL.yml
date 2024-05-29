@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bicicletas-bd-mysql
+  name: bicicletas-bd-mysql-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bicicletas-bd-mysql
+      app: bicicletas-bd-mysql-deployment
   template:
     metadata:
       labels:
-        app: bicicletas-bd-mysql
+        app: bicicletas-bd-mysql-deployment
     spec:
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: mysql
         ports:
         - containerPort: 3306
         env:
@@ -29,4 +29,4 @@ spec:
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
-          claimName: pvc-bicicletas-bd-sql
+          claimName: pvc-bicicletas-bd-mysql
