@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bicicletas-mongo-service
+  name: bicicletas-mongo
   namespace: proyecto-final
 spec:
   selector:

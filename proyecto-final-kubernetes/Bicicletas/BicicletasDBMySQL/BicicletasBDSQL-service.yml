@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bicicletas-bd-mysql-svc
-  namespace: proyecto-conjunto
+  name: mysql-bicicletas
+  namespace: proyecto-final
 spec:
   selector:
-    app: bicicletas-bd-mysql
+    app: bicicletas-bd-mysql-deployment
   ports:
     - protocol: TCP
       port: 3306

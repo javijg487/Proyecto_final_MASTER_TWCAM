@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bicicletas-mysql-service
+  name: bicicletas-sql
   namespace: proyecto-final
 spec:
   selector:
-    app: bicicletas-mysql
+    app: bicicletas-mysql-deployment
   ports:
     - protocol: TCP
       port: 80

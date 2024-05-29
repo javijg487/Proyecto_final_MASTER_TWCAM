@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bicicletas-mysql
+  name: bicicletas-mysql-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bicicletas-mysql
+      app: bicicletas-mysql-deployment
   template:
     metadata:
       labels:
-        app: bicicletas-mysql
+        app: bicicletas-mysql-deployment
     spec:
       containers:
-      - name: bicicletas-mysql
+      - name: bicicletas-mysql-deployment
         image: javijg487/app-bicicletas-repo-mysql:latest
         ports:
         - containerPort: 8080
