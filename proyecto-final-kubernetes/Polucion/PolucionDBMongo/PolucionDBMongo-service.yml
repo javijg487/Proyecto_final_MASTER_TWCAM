@@ -5,7 +5,7 @@ metadata:
   namespace: proyecto-final
 spec:
   selector:
-    app: polucion-mongo-deployment
+    app: polucion-mongo-db-deployment
   ports:
     - protocol: TCP
       port: 80

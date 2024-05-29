@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-polucion-mysql
+  name: pvc-polucion-bd-sql
 spec:
   accessModes:
     - ReadWriteOnce

@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: polucion-mongo-deployment
+  name: polucion-mongo-db-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: polucion-mongo-deployment
+      app: polucion-mongo-db-deployment
   template:
     metadata:
       labels:
-        app: polucion-mongo-deployment
+        app: polucion-mongo-db-deployment
     spec:
       containers:
       - name: mongo
@@ -24,4 +24,4 @@ spec:
       volumes:
       - name: mongo-storage
         persistentVolumeClaim:
-          claimName: pvc-polucion-mongo
+          claimName: pvc-polucion-db-mongo
