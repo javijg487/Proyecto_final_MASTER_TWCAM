@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polucion-bd-mysql-deployment
+  namespace: proyecto-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: polucion-bd-mysql-deployment
+  template:
+    metadata:
+      labels:
+        app: polucion-bd-mysql-deployment
+    spec:
+      containers:
+      - name: mysql
+        image: mysql
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: SQLPolucion
+        volumeMounts:
+        - mountPath: /var/lib/db-mysql
+          name: mysql-storage
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: pvc-polucion-bd-sql

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: polucion-api
+  name: polucion-api-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: polucion-api
+      app: polucion-api-deployment
   template:
     metadata:
       labels:
-        app: polucion-api
+        app: polucion-api-deployment
     spec:
       containers:
-      - name: polucion-api
+      - name: polucion-api-deployment
         image: javijg487/app-polucion-api:latest
         ports:
         - containerPort: 8080

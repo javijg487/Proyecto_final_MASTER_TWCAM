@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: polucion-mysql
+  name: polucion-mongo-deployment
   namespace: proyecto-final
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: polucion-mysql
+      app: polucion-mongo-deployment
   template:
     metadata:
       labels:
-        app: polucion-mysql
+        app: polucion-mongo-deployment
     spec:
       containers:
-      - name: autenticacion-api
-        image: javijg487/app-polucion-repo-mysql:latest
+      - name: polucion-mongo-deployment
+        image: javijg487/app-polucion-repo-mongo:latest
         ports:
         - containerPort: 8080

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: polucion
+  name: polucion-mongo
   namespace: proyecto-final
 spec:
   selector:
-    app: polucion-api-deployment
+    app: polucion-mongo-deployment
   ports:
     - protocol: TCP
       port: 80
