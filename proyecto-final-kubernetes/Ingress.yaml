@@ -1,0 +1,138 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proyecto-final-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: bicicletas.proyecto.final.com
+      http:
+        paths:
+          - path: /api/v1/aparcamiento
+            pathType: Prefix
+            backend:
+              service:
+                name: bicicletas-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamiento/{id}
+            pathType: Prefix
+            backend:
+              service:
+                name: bicicletas-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamientos
+            pathType: Prefix
+            backend:
+              service:
+                name: bicicletas-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamiento/{id}/status
+            pathType: Prefix
+            backend:
+              service:
+                name: bicicletas-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamiento/top10
+            pathType: Prefix
+            backend:
+              service:
+                name: bicicletas-service
+                port:
+                  number: 80
+    - host: polucion.proyecto.final.com
+      http:
+        paths:
+          - path: /api/v1/estacion
+            pathType: Prefix
+            backend:
+              service:
+                name: polucion-service
+                port:
+                  number: 80
+          - path: /api/v1/estacion/{id}
+            pathType: Prefix
+            backend:
+              service:
+                name: polucion-service
+                port:
+                  number: 80
+          - path: /api/v1/estaciones
+            pathType: Prefix
+            backend:
+              service:
+                name: polucion-service
+                port:
+                  number: 80
+          - path: /api/v1/estacion/{id}/status
+            pathType: Prefix
+            backend:
+              service:
+                name: polucion-service
+                port:
+                  number: 80
+    - host: ayuntamiento.proyecto.final.com
+      http:
+        paths:
+          - path: /api/v1/aparcamientoCercano
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/aggregateData
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/aggregatedData
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/estacion
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/estacion/{id}
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamiento
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+          - path: /api/v1/aparcamiento/{id}
+            pathType: Prefix
+            backend:
+              service:
+                name: ayuntamiento-service
+                port:
+                  number: 80
+    - host: autenticacion.proyecto.final.com
+      http:
+        paths:
+          - path: /api/v1/login
+            pathType: Prefix
+            backend:
+              service:
+                name: autenticacion-service
+                port:
+                  number: 80

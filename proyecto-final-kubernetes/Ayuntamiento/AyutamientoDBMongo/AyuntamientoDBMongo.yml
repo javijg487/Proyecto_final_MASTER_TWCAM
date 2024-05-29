@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ayuntamiento-mongo-deployment
+  namespace: proyecto-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ayuntamiento-mongo-deployment
+  template:
+    metadata:
+      labels:
+        app: ayuntamiento-mongo-deployment
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /data/ayuntamiento-db-mongo
+          name: mongo-storage
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: pvc-ayuntamiento-mongo

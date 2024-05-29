@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autenticacion-api-deployment
+  namespace: proyecto-final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autenticacion-api-deployment
+  template:
+    metadata:
+      labels:
+        app: autenticacion-api-deployment
+    spec:
+      containers:
+      - name: autenticacion-api-deployment
+        image: javijg487/app-autenticacion-api:latest
+        ports:
+        - containerPort: 8080
