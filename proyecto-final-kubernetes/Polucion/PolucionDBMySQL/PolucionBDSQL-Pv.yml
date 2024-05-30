@@ -2,8 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-polucion-mysql
-  labels:
-    type: local
+  namespace: proyecto-final
 spec:
   capacity:
     storage: 100Mi

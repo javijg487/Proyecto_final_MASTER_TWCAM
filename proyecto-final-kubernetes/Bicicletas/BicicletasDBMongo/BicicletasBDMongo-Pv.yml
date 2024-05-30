@@ -2,8 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-bicicletas-bd-mongo
-  labels:
-    type: local
+  namespace: proyecto-final
 spec:
   capacity:
     storage: 100Mi
