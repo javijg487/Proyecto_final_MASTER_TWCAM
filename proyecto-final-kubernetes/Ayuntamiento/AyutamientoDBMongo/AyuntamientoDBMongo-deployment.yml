@@ -24,4 +24,4 @@ spec:
       volumes:
       - name: mongo-storage
         persistentVolumeClaim:
-          claimName: pvc-ayuntamiento-mongo
+          claimName: pvc-bicicletas-bd-mongo
