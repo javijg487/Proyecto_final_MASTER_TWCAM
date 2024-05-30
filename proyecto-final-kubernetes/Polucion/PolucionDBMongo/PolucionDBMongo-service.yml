@@ -8,5 +8,5 @@ spec:
     app: polucion-mongo-db-deployment
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 27017
+      targetPort: 27017
