@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: token-config
+  namespace: proyecto-final
+data:
+  token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiYXV0aC1zZXJ2ZXIiLCJleHAiOjE3MTgzNjk0MDd9._IP7uqM4OVKppA6T4Fov0onqHlD3bBADazTHwqz0bAE

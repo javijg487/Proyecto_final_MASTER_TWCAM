@@ -4,7 +4,7 @@ metadata:
   name: cronjob
   namespace: proyecto-final
 spec:
-  schedule: "* * * * * "
+  schedule: "* * * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 5
   failedJobsHistoryLimit: 1
@@ -16,4 +16,10 @@ spec:
           containers:
           - name: curlimages
             image: curlimages/curl:8.8.0
-            command: ["/bin/sh", "-c", "curl -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoiYXV0aC1zZXJ2ZXIiLCJleHAiOjE3MTgzNjk0MDd9._IP7uqM4OVKppA6T4Fov0onqHlD3bBADazTHwqz0bAE' http://ayuntamiento/api/v1/aggregateData"]
+            command: ["/bin/sh", "-c", "curl -H \"Authorization: Bearer $TOKEN\" http://ayuntamiento/api/v1/aggregateData"]
+            env:
+            - name: TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: token-config
+                  key: token
