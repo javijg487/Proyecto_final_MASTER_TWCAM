@@ -29,9 +29,15 @@ if [ -f Ingress-nginx.yml ]; then
     kubectl apply -f Ingress-nginx.yml
 fi
 
+sleep 15
+
 # Aplicar Ingress (si existe)
 if [ -f Ingress.yml ]; then
     kubectl apply -f Ingress.yml
+fi
+
+if [ -f CronJob.yml ]; then
+    kubectl apply -f CronJob.yml
 fi
 
 echo "Despliegue completado."

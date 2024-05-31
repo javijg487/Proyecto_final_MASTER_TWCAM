@@ -5,7 +5,7 @@ metadata:
   namespace: proyecto-final
 spec:
   selector:
-    app: bicicletas-mongo
+    app: bicicletas-mongo-deployment
   ports:
     - protocol: TCP
       port: 80
