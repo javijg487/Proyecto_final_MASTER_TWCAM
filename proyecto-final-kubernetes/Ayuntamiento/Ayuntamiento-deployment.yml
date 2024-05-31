@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: ayuntamiento-api-deployment
-        image: javijg487/app-autenticacion-api:latest
+        image: javijg487/app-ayuntamiento-api:latest
         ports:
         - containerPort: 8080
