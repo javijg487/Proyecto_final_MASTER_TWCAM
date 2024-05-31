@@ -24,6 +24,10 @@ done
 for service in $(find . -name "*-service.yml"); do
     kubectl apply -f "$service"
 done
+# Aplicar Ingress (si existe)
+if [ -f Ingress-nginx.yml ]; then
+    kubectl apply -f Ingress-nginx.yml
+fi
 
 # Aplicar Ingress (si existe)
 if [ -f Ingress.yml ]; then

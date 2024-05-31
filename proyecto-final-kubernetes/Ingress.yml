@@ -15,35 +15,14 @@ spec:
               service:
                 name: bicicletas
                 port:
-                  number: 8080
-          - path: /api/v1/aparcamiento/{id}
-            pathType: Prefix
-            backend:
-              service:
-                name: bicicletas
-                port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/aparcamientos
             pathType: Prefix
             backend:
               service:
                 name: bicicletas
                 port:
-                  number: 8080
-          - path: /api/v1/aparcamiento/{id}/status
-            pathType: Prefix
-            backend:
-              service:
-                name: bicicletas
-                port:
-                  number: 8080
-          - path: /api/v1/aparcamiento/top10
-            pathType: Prefix
-            backend:
-              service:
-                name: bicicletas
-                port:
-                  number: 8080
+                  number: 80
     - host: polucion.proyecto.final.com
       http:
         paths:
@@ -53,28 +32,14 @@ spec:
               service:
                 name: polucion
                 port:
-                  number: 8080
-          - path: /api/v1/estacion/{id}
-            pathType: Prefix
-            backend:
-              service:
-                name: polucion
-                port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/estaciones
             pathType: Prefix
             backend:
               service:
                 name: polucion
                 port:
-                  number: 8080
-          - path: /api/v1/estacion/{id}/status
-            pathType: Prefix
-            backend:
-              service:
-                name: polucion
-                port:
-                  number: 8080
+                  number: 80
     - host: ayuntamiento.proyecto.final.com
       http:
         paths:
@@ -84,49 +49,35 @@ spec:
               service:
                 name: ayuntamiento
                 port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/aggregateData
             pathType: Prefix
             backend:
               service:
                 name: ayuntamiento
                 port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/aggregatedData
             pathType: Prefix
             backend:
               service:
                 name: ayuntamiento
                 port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/estacion
             pathType: Prefix
             backend:
               service:
                 name: ayuntamiento
                 port:
-                  number: 8080
-          - path: /api/v1/estacion/{id}
-            pathType: Prefix
-            backend:
-              service:
-                name: ayuntamiento
-                port:
-                  number: 8080
+                  number: 80
           - path: /api/v1/aparcamiento
             pathType: Prefix
             backend:
               service:
                 name: ayuntamiento
                 port:
-                  number: 8080
-          - path: /api/v1/aparcamiento/{id}
-            pathType: Prefix
-            backend:
-              service:
-                name: ayuntamiento
-                port:
-                  number: 8080
+                  number: 80
     - host: autenticacion.proyecto.final.com
       http:
         paths:
@@ -136,4 +87,4 @@ spec:
               service:
                 name: autenticacion
                 port:
-                  number: 8080
+                  number: 80
