@@ -1,12 +1,9 @@
 package com.proyectofinal.ayuntamientomongo.models;
 
-import org.springframework.data.annotation.Id;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AggregatedData {
-    @Id
-	private String _id;
+
 	@JsonProperty("id")
 	private Integer identificador; 
     @JsonProperty("average_bikesAvailable")

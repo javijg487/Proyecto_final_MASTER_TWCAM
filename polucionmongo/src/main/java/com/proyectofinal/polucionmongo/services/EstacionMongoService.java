@@ -34,10 +34,6 @@ public class EstacionMongoService {
 		}
 	}
 
-	public List<EstacionMongo> findAllById(Integer id) {
-		return this.emr.findByIdentificador(id);
-	}
-
 	public void delete(EstacionMongo EstacionMongo) {
 		this.emr.delete(EstacionMongo);
 	}

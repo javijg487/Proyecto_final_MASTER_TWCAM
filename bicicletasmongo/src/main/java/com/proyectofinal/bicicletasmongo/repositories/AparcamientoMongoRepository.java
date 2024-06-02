@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface AparcamientoMongoRepository extends MongoRepository<AparcamientoMongo, String>{
 
-    List<AparcamientoMongo> findAllByIdentificador(Integer id);
-
     List<AparcamientoMongo> findByIdentificadorAndTimestampBetween(Integer id, String from, String to);
 
     AparcamientoMongo findFirstByIdentificadorOrderByTimestampDesc(Integer id);

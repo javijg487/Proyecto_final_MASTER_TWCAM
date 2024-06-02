@@ -27,15 +27,6 @@ public class AparcamientoMongoController {
     @Autowired
     AparcamientoMongoService ams;
 
-    @GetMapping("/status")
-    public ResponseEntity<List<AparcamientoMongo>> getAll() {
-        List<AparcamientoMongo> users = new ArrayList<>();
-
-        users = ams.findAll();
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @GetMapping("/{id}/status")
     public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {

@@ -22,21 +22,21 @@ services:
       - "3307:3306"
 
   db_polucion_mongo:
-    image: mongo
+    image: mongo:4.4
     container_name: mongo-container-polucion
     restart: always
     ports:
       - "27017:27017"
 
   db_bicicletas_mongo:
-    image: mongo
+    image: mongo:4.4
     container_name: mongo-container-bicicletas
     restart: always
     ports:
       - "27018:27017"
 
   db_ayuntamiento_mongo:
-    image: mongo
+    image: mongo:4.4
     container_name: mongo-container-ayuntamiento
     restart: always
     ports:

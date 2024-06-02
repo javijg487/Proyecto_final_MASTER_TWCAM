@@ -26,13 +26,6 @@ public class EstacionMongoController {
 	@Autowired
 	EstacionMongoService ems;
 
-	@GetMapping("/status")
-	public ResponseEntity<List<EstacionMongo>> getAll() {
-		List<EstacionMongo> estaciones = new ArrayList<EstacionMongo>();
-		estaciones = ems.findAll();
-		return new ResponseEntity<>(estaciones, HttpStatus.OK);
-	}
-
 	@GetMapping("/{id}/status")
 	public ResponseEntity<?> getById(@PathVariable Integer id,
 			@RequestParam(value = "from", required = false) Optional<String> from,

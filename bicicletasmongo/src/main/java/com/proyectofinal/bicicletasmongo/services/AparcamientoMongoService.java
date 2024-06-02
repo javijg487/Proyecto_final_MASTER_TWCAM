@@ -22,9 +22,6 @@ public class AparcamientoMongoService {
         this.amr.delete(a);
     }
 
-    public List<AparcamientoMongo> findAllById(Integer id){
-        return this.amr.findAllByIdentificador(id);
-    }
     
     public AparcamientoMongo create(AparcamientoMongo a, Integer id){
         try{
