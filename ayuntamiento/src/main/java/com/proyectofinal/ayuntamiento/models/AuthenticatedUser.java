@@ -1,4 +1,4 @@
-package com.proyectofinal.autenticacion.models;
+package com.proyectofinal.ayuntamiento.models;
 
 import java.util.ArrayList;
 import java.util.List;

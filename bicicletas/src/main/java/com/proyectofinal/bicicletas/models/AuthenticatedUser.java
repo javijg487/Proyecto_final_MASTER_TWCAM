@@ -1,4 +1,4 @@
-package com.proyectofinal.autenticacion.models;
+package com.proyectofinal.bicicletas.models;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,22 +10,30 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.proyectofinal.bicicletas.models.AuthenticatedUser;
 
-import com.proyectofinal.bicicletas.services.JwtService;
 
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-	private JwtService jwtService;
+	private String autenticacionUrl;
 
-	public JwtAuthorizationFilter(JwtService jwtService) {
-		this.jwtService = jwtService;
+	private RestTemplate restTemplate;
+
+	public JwtAuthorizationFilter(RestTemplate restTemplate, String autenticacionUrl) {
+		this.restTemplate = restTemplate;
+		this.autenticacionUrl = autenticacionUrl;
 	}
 
 	@Override
@@ -33,12 +41,23 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String authHeader = request.getHeader("Authorization");
+		System.out.println("authHeader: " + authHeader);
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
+			ResponseEntity<AuthenticatedUser> response_rest;
 			try {
-				String token = jwtService.getTokenFromHeader(authHeader);
-				String username = jwtService.getUsernameFromToken(token);
+				HttpHeaders headers = new HttpHeaders();
+				headers.set("Authorization", authHeader);
 
-				Collection<SimpleGrantedAuthority> authorities = jwtService.getAuthoritiesFromToken(token);
+				HttpEntity<AuthenticatedUser> entity = new HttpEntity<>(headers);
+				System.out.println("autenticacionUrl: " + autenticacionUrl);
+				response_rest = restTemplate.exchange(autenticacionUrl +"/api/v1/authenticate", HttpMethod.GET,
+						entity,
+						AuthenticatedUser.class);
+				System.out.println("response_rest: " + response_rest.getStatusCode());
+				AuthenticatedUser authenticatedUser = response_rest.getBody();
+				String username = authenticatedUser.getUsername();
+				Collection<SimpleGrantedAuthority> authorities = authenticatedUser.getRoles().stream()
+						.map(SimpleGrantedAuthority::new).toList();
 				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 						username, null, authorities);
 				SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -55,7 +74,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		} else {
 			filterChain.doFilter(request, response);
 		}
-
 	}
 
 }

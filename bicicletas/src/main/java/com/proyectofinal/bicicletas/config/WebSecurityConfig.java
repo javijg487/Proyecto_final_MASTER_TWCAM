@@ -1,24 +1,28 @@
 package com.proyectofinal.bicicletas.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 import com.proyectofinal.bicicletas.security.JwtAuthorizationFilter;
-import com.proyectofinal.bicicletas.services.JwtService;
 
 @Configuration
 public class WebSecurityConfig {
     @Autowired
-    private JwtService jwtService;
+    private RestTemplate restTemplate;
+
+    @Value("${autenticacion.url}")
+	private String autenticacionUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        JwtAuthorizationFilter authorizationFilter = new JwtAuthorizationFilter(jwtService);
+        JwtAuthorizationFilter authorizationFilter = new JwtAuthorizationFilter(restTemplate, autenticacionUrl);
 
         http.csrf(csrf -> csrf.disable())
                 .formLogin(login -> login.disable())
