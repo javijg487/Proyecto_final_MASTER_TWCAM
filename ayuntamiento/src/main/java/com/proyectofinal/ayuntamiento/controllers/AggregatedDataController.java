@@ -36,6 +36,8 @@ import com.proyectofinal.ayuntamiento.models.EstacionDTO;
 import com.proyectofinal.ayuntamiento.models.EstacionMongoDTO;
 import com.proyectofinal.ayuntamiento.services.AggregatedDataService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -58,6 +60,7 @@ public class AggregatedDataController {
     private String aggregatedDataUrl;
 
     @GetMapping("/aggregatedData")
+    @Operation(summary = "Obtener datos agregados", description = "Obtiene los datos agregados más recientes de la base de datos de MongoDB")
     public ResponseEntity<AgregadoMongoDTO> findAggregatedData() {
         ResponseEntity<AgregadoMongoDTO> response;
         AgregadoMongoDTO aggregatedData = new AgregadoMongoDTO();
@@ -75,6 +78,7 @@ public class AggregatedDataController {
     }
 
     @GetMapping("/aparcamientoCercano")
+    @Operation(summary = "Obtener aparcamiento cercano", description = "Obtiene el aparcamiento más cercano a una posición dada")
     public ResponseEntity<AparcamientoCercanoDTO> getAparcamientoCercano(
             @RequestParam(value = "lat", required = true) String lat,
             @RequestParam(value = "lon", required = true) String lon) {
@@ -119,6 +123,11 @@ public class AggregatedDataController {
     }
 
     @GetMapping("/aggregateData")
+    @Operation(summary = "Obtener datos agregados", description = "Obtiene los datos agregados para cada aparcamiento: el\r\n"
+			+ //
+			"número medio de bicicletas disponibles, el número medio de cada tipo de contaminante\r\n" + //
+			"atmosférico. Los datos de polución se obtendrán de la estación más cercana a cada\r\n" + //
+			"aparcamiento")
     public ResponseEntity<AgregadoMongoDTO> aggregateData() {
 
         ResponseEntity<AparcamientoDTO[]> response;

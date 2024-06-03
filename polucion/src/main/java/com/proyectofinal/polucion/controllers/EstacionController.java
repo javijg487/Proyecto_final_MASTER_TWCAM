@@ -24,6 +24,8 @@ import java.util.Optional;
 import com.proyectofinal.polucion.models.EstacionDTO;
 import com.proyectofinal.polucion.models.EstacionMongoDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +52,7 @@ public class EstacionController {
 
     // Parte de SQL
     @GetMapping("/estaciones")
+    @Operation(summary = "Obtener estaciones", description = "Obtiene todas las estaciones de la base de datos MySQL")
     public ResponseEntity<List<EstacionDTO>> findEstaciones() {
         ResponseEntity<EstacionDTO[]> response;
         List<EstacionDTO> estaciones = new ArrayList<EstacionDTO>();
@@ -67,6 +70,7 @@ public class EstacionController {
     }
 
     @PostMapping("/estacion")
+    @Operation(summary = "Crear estación", description = "Crea una estación en la base de datos MySQL")
     public ResponseEntity<?> create(@RequestBody EstacionDTO Estacion,@RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<EstacionDTO> response;
         ResponseEntity<String> responseToken;
@@ -101,6 +105,7 @@ public class EstacionController {
     }
 
     @DeleteMapping("/estacion/{id}")
+    @Operation(summary = "Borrar estación", description = "Borra una estación de la base de datos MySQL")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             restTemplate.delete(estacionSQLUrl + "/estacion/" + id);
@@ -111,6 +116,7 @@ public class EstacionController {
     }
 
     @PutMapping("/estacion/{id}")
+    @Operation(summary = "Editar estación", description = "Edita una estación de la base de datos MySQL")
     public ResponseEntity<?> editEstacion(@PathVariable Integer id,
             @RequestBody EstacionDTO estacion) {
         try {
@@ -123,6 +129,7 @@ public class EstacionController {
 
     // Parte de Mongo
     @GetMapping("/estacion/{id}/status")
+    @Operation(summary = "Obtener datos de una estacion por id y periodo de tiempo", description = "Obtiene datos de una estacion por su id y periodo de tiempo. Si no se pasa un periodo de tiempo obtiene los datos más recientes")
     public ResponseEntity<?> getById(@PathVariable("id") Integer id,
             @RequestParam(value = "from", required = false) Optional<String> from,
             @RequestParam(value = "to", required = false) Optional<String> to) {
@@ -143,6 +150,7 @@ public class EstacionController {
     }
 
     @PostMapping("/estacion/{id}")
+    @Operation(summary = "Agregar datos de estacion", description = "Agregar datos de una estacion en la base de datos MongoDB")
     public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody EstacionMongoDTO EstacionMongo)
             throws IOException {
         ResponseEntity<EstacionMongoDTO> response;

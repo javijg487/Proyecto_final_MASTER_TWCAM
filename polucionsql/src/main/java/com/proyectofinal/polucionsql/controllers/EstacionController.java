@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import com.proyectofinal.polucionsql.models.Estacion;
 import com.proyectofinal.polucionsql.services.EstacionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,7 @@ public class EstacionController {
     private EstacionService estacionService;
 
     @GetMapping("/estaciones")
+    @Operation(summary="Obtener estaciones", description="Obtiene todas las estaciones de la base de datos")
     public ResponseEntity<List<Estacion>> findEstaciones() {
         LOGGER.debug("View all estaciones");
         List<Estacion> estaciones = new ArrayList<Estacion>();
@@ -39,6 +42,7 @@ public class EstacionController {
     }
 
     @PostMapping("/estacion")
+    @Operation(summary="Crear estación", description="Crea una estaciónen la base de datos")
     public ResponseEntity<?> create(@RequestBody Estacion Estacion) throws IOException {
         Estacion e = estacionService.create(Estacion);
         if (e == null) {
@@ -48,6 +52,7 @@ public class EstacionController {
     }
 
     @DeleteMapping("/estacion/{id}")
+    @Operation(summary="Borrar estación", description="Borra una estación de la base de datos")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         Estacion e = estacionService.findById(id);
         if (e == null) {
@@ -58,6 +63,7 @@ public class EstacionController {
     }
 
     @PutMapping("estacion/{id}")
+    @Operation(summary="Editar estación", description="Edita una estación de la base de datos")
     public ResponseEntity<Estacion> editEstacion(@PathVariable Integer id, @RequestBody Estacion estacion) {
         Estacion e = estacionService.editEstacion(estacion, id);
 

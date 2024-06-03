@@ -3,6 +3,8 @@ package com.proyectofinal.polucionmongo.controllers;
 import com.proyectofinal.polucionmongo.models.EstacionMongo;
 import com.proyectofinal.polucionmongo.services.EstacionMongoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class EstacionMongoController {
 	EstacionMongoService ems;
 
 	@GetMapping("/{id}/status")
+	@Operation(summary = "Obtener datos de una estacion por id y periodo de tiempo", description = "Obtiene datos de una estacion por su id y periodo de tiempo. Si no se pasa un periodo de tiempo obtiene los datos más recientes")
 	public ResponseEntity<?> getById(@PathVariable Integer id,
 			@RequestParam(value = "from", required = false) Optional<String> from,
 			@RequestParam(value = "to", required = false) Optional<String> to) {
@@ -49,6 +52,7 @@ public class EstacionMongoController {
 	}
 
 	@PostMapping("/{id}")
+	@Operation(summary = "Agregar datos de estacion", description = "Agregar datos de una estacion en la base de datos")
 	public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody EstacionMongo EstacionMongo) throws IOException {
 		EstacionMongo em = ems.create(EstacionMongo, id);
 		if (em == null) {

@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .logout(logout -> logout.disable())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/v1/estacion").hasRole("ADMIN")
+                        .requestMatchers("api/v1/api-spec","api/v1/api-gui.html").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/estacion/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/estacion/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "api/v1/estacion/{id}").hasRole("ESTACION")
