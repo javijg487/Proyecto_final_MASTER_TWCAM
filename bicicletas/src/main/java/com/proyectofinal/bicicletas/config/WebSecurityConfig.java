@@ -28,6 +28,8 @@ public class WebSecurityConfig {
                 .formLogin(login -> login.disable())
                 .logout(logout -> logout.disable())
                 .authorizeHttpRequests(requests -> requests
+                .requestMatchers("api/v1/api-spec").permitAll()
+						.requestMatchers("/api/v1/api-gui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/aparcamiento").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/aparcamiento/{id}").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/v1/aparcamiento/{id}").hasRole("ADMIN")

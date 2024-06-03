@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyectofinal.autenticacion.models.AuthenticatedUser;
 import com.proyectofinal.autenticacion.services.JwtService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UserRestController {
@@ -20,7 +22,9 @@ public class UserRestController {
 	@Autowired
 	private JwtService jwtService;
 
+	
 	@GetMapping("/createAparcamiento")
+	@Operation(summary="Crear Aparcamiento", description="Genera el token de acceso para el rol de APARCAMIENTO")
 	public ResponseEntity<String> createAparcamiento() {
 		String token = jwtService.generateAccessToken("aparcamiento", List.of("APARCAMIENTO"));
 		if (token != null) {
@@ -31,6 +35,7 @@ public class UserRestController {
 	}
 
 	@GetMapping("/createEstacion")
+	@Operation(summary="Crear Estación", description="Genera el token de acceso para el rol de ESTACION")
 	public ResponseEntity<String> createEstacion() {
 		String token = jwtService.generateAccessToken("estacion", List.of("ESTACION"));
 		if (token != null) {
@@ -41,6 +46,7 @@ public class UserRestController {
 	}
 
 	@GetMapping("/authenticate")
+	@Operation(summary="Autenticar", description="Autentica al usuario y devuelve el token de acceso")
 	public ResponseEntity<AuthenticatedUser> authenticate(@RequestHeader("Authorization") String authHeader) {
 
 		AuthenticatedUser authenticatedUser = new AuthenticatedUser();

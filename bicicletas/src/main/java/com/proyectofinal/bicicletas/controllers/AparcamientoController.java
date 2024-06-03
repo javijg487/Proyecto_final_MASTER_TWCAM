@@ -29,6 +29,8 @@ import java.util.HashSet;
 import com.proyectofinal.bicicletas.models.AparcamientoDTO;
 import com.proyectofinal.bicicletas.models.AparcamientoMongoDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +57,7 @@ public class AparcamientoController {
 
     // Parte de SQL
     @GetMapping("/aparcamientos")
+    @Operation(summary="Obtener Aparcamientos", description="Devuelve una lista con todos los aparcamientos disponibles en SQL")
     public ResponseEntity<List<AparcamientoDTO>> findAparcamientos() {
         ResponseEntity<AparcamientoDTO[]> response;
         List<AparcamientoDTO> aparcamientos = new ArrayList<AparcamientoDTO>();
@@ -72,6 +75,7 @@ public class AparcamientoController {
     }
 
     @PostMapping("/aparcamiento")
+    @Operation(summary="Crear Aparcamiento", description="Crea un nuevo aparcamiento en SQL")
     public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento,
             @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<AparcamientoDTO> response;
@@ -109,6 +113,7 @@ public class AparcamientoController {
     }
 
     @DeleteMapping("/aparcamiento/{id}")
+    @Operation(summary="Eliminar Aparcamiento", description="Elimina un aparcamiento pasado como argumento en SQL")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         try {
             restTemplate.delete(aparcamientoSQLUrl + "/aparcamiento/" + id);
@@ -119,6 +124,7 @@ public class AparcamientoController {
     }
 
     @PutMapping("/aparcamiento/{id}")
+    @Operation(summary="Editar Aparcamiento", description="Edita un aparcamiento pasado como argumento el id en SQL")
     public ResponseEntity<?> editAparcamiento(@PathVariable("id") Integer id,
             @RequestBody AparcamientoDTO aparcamiento) {
         try {
@@ -131,6 +137,7 @@ public class AparcamientoController {
 
     // Parte de Mongo
     @GetMapping("/aparcamiento/{id}/status")
+    @Operation(summary="Obtener estado de un Aparcamiento por ID", description="Devuelve el estado de un aparcamiento pasado como argumento en Mongo")
     public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {
 
@@ -155,6 +162,7 @@ public class AparcamientoController {
     }
 
     @PostMapping("/aparcamiento/{id}")
+    @Operation(summary="Crear estado de un Aparcamiento por ID", description="Crea un nuevo aparcamiento con el id pasado como argumento en Mongo")
     public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo)
             throws IOException {
         ResponseEntity<AparcamientoMongoDTO> response;
@@ -185,8 +193,8 @@ public class AparcamientoController {
         return new ResponseEntity<AparcamientoMongoDTO>(new AparcamientoMongoDTO(), HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    // CAMBIAR USANDO APARCAMIENTO/{id}/STATUS
     @GetMapping("/aparcamiento/top10")
+    @Operation(summary="Obtener los 10 aparcamientos con más disponibilidad", description="Devuelve una lista con los 10 aparcamientos con más cantidad de bicicletas disponibles en Mongo")
     public ResponseEntity<List<AparcamientoMongoDTO>> getTop10() {
         OffsetDateTime date = OffsetDateTime.now().minusMonths(1);
         DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;

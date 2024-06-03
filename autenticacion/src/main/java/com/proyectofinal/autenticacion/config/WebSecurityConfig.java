@@ -57,6 +57,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/v1/login").permitAll()
 						.requestMatchers("/api/v1/createAparcamiento").hasRole("ADMIN")
 						.requestMatchers("/api/v1/createEstacion").hasRole("ADMIN")
+						.requestMatchers("api/v1/api-spec").permitAll()
+						.requestMatchers("/api/v1/api-gui.html").permitAll()
 						.requestMatchers("/api/v1/authenticate").authenticated())
 						
                 .addFilter(authenticationFilter)
