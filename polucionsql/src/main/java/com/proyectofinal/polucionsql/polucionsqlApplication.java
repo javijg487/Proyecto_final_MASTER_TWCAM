@@ -13,12 +13,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @SpringBootApplication
 @OpenAPIDefinition(
   info =@Info(
-    title = "Repo SQL Bicicletas",
+    title = "Repo SQL Polucion",
     version = "v1",
     license = @License(
       name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
     ),
-    description = "API de Bicicletas"
+    description = "Repositorio  MySQL Polucion"
   ),
   servers = @Server(
     url = "/",

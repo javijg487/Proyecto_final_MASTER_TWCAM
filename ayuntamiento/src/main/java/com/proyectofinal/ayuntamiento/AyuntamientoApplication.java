@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @SpringBootApplication
 @OpenAPIDefinition(
   info =@Info(
-    title = "Blog API Ayuntamiento",
+    title = "API Ayuntamiento",
     version = "v1",
     license = @License(
       name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
     ),
-    description = "API de Bicicletas"
+    description = "API de ayuntamiento"
   ),
   servers = @Server(
     url = "/",

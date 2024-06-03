@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
     license = @License(
       name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
     ),
-    description = "API de Bicicletas"
+    description = "Repositorio de Polucion MongoDB"
   ),
   servers = @Server(
     url = "/",
