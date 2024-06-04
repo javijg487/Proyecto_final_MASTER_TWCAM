@@ -29,7 +29,7 @@ done
 if [ -f Ingress-nginx.yml ]; then
     kubectl apply -f Ingress-nginx.yml
 fi
-
+echo -e "Cargando configuración de Ingres-nginx..."
 sleep 30
 
 # Aplicar Ingress (si existe)
