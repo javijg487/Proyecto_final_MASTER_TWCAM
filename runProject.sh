@@ -1,22 +1,26 @@
 #!/bin/bash
 
-# Compila los proyectos Java
+# Compila y ejecuta los proyectos Java
 # Polucion
-java -jar ./polucionsql/target/polucionsql.jar --spring.profiles.active=local &
-java -jar ./polucionmongo/target/polucionmongo.jar --spring.profiles.active=local &
-java -jar ./polucion/target/polucion.jar --spring.profiles.active=local &
+cd polucionsql 
+mvn spring-boot:run -Dactive.profile=local &
+
+cd ../polucionmongo 
+
+mvn spring-boot:run -Dactive.profile=local &
+cd ../polucion && mvn spring-boot:run -Dactive.profile=local &
 
 # Bicicletas
-java -jar ./bicicletassql/target/bicicletassql.jar --spring.profiles.active=local &
-java -jar ./bicicletasmongo/target/bicicletasmongo.jar --spring.profiles.active=local &
-java -jar ./bicicletas/target/bicicletas.jar --spring.profiles.active=local &
+cd ../bicicletassql && mvn spring-boot:run -Dactive.profile=local &
+cd ../bicicletasmongo && mvn spring-boot:run -Dactive.profile=local &
+cd ../bicicletas && mvn spring-boot:run -Dactive.profile=local &
 
 # Ayuntamiento
-java -jar ./ayuntamientomongo/target/ayuntamientomongo.jar --spring.profiles.active=local &
-java -jar ./ayuntamiento/target/ayuntamiento.jar --spring.profiles.active=local &
+cd ../ayuntamientomongo && mvn spring-boot:run -Dactive.profile=local &
+cd ../ayuntamiento && mvn spring-boot:run -Dactive.profile=local &
 
 # Autenticacion
-java -jar ./autenticacion/target/autenticacion.jar --spring.profiles.active=local &
+cd ../autenticacion && mvn spring-boot:run -Dactive.profile=local &
 
 # Servicio
-java -jar ./service/target/service.jar &
+cd ../service && mvn spring-boot:run &
