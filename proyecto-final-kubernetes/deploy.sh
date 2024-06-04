@@ -24,18 +24,25 @@ done
 for service in $(find . -name "*-service.yml"); do
     kubectl apply -f "$service"
 done
+
 # Aplicar Ingress (si existe)
 if [ -f Ingress-nginx.yml ]; then
     kubectl apply -f Ingress-nginx.yml
 fi
 
-sleep 15
+sleep 30
 
 # Aplicar Ingress (si existe)
 if [ -f Ingress.yml ]; then
     kubectl apply -f Ingress.yml
 fi
 
+# Aplicar ConfigMap
+if [ -f ConfigMap.yml ]; then
+    kubectl apply -f ConfigMap.yml
+fi
+
+# Aplicar CronJob
 if [ -f CronJob.yml ]; then
     kubectl apply -f CronJob.yml
 fi

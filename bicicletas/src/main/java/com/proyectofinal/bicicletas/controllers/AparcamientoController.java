@@ -138,7 +138,7 @@ public class AparcamientoController {
     // Parte de Mongo
     @GetMapping("/aparcamiento/{id}/status")
     @Operation(summary="Obtener estado de un Aparcamiento por ID", description="Devuelve el estado de un aparcamiento pasado como argumento en Mongo")
-    public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
+    public ResponseEntity<?> getAparcamientoById(@PathVariable("id") Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {
 
         ResponseEntity<AparcamientoMongoDTO[]> response;
@@ -163,7 +163,7 @@ public class AparcamientoController {
 
     @PostMapping("/aparcamiento/{id}")
     @Operation(summary="Crear estado de un Aparcamiento por ID", description="Crea un nuevo aparcamiento con el id pasado como argumento en Mongo")
-    public ResponseEntity<?> createmongo(@PathVariable Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo)
+    public ResponseEntity<?> createmongo(@PathVariable("id") Integer id, @RequestBody AparcamientoMongoDTO aparcamientoMongo)
             throws IOException {
         ResponseEntity<AparcamientoMongoDTO> response;
         boolean idEncontrado = false;
