@@ -175,8 +175,8 @@ public class AggregatedDataController {
                 }
 
                 AirQualityDTO airQuality = new AirQualityDTO();
-
-                if (responseEstacionMongo.getStatusCode() == HttpStatus.OK) {
+                System.out.println("respuesta mongo" + responseEstacionMongo.getBody()); 
+                if (responseEstacionMongo.getStatusCode() == HttpStatus.OK && responseEstacionMongo.getBody()!=null) {
                     List<EstacionMongoDTO> estacionesMongoDTO = Arrays.asList(responseEstacionMongo.getBody());
                     float sumaNitricOxi = 0;
                     float sumaNitroDiox = 0;
@@ -209,7 +209,7 @@ public class AggregatedDataController {
                     return new ResponseEntity<>(aggregateDataFinal, HttpStatus.SERVICE_UNAVAILABLE);
                 }
 
-                if (responseMongo.getStatusCode() == HttpStatus.OK) {
+                if (responseMongo.getStatusCode() == HttpStatus.OK&&responseMongo.getBody()!=null) {
                     List<AparcamientoMongoDTO> aparcamientosMongoDTO = Arrays.asList(responseMongo.getBody());
                     int suma = 0;
 
