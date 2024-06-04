@@ -28,9 +28,8 @@ public class AparcamientoMongoController {
     AparcamientoMongoService ams;
 
     @GetMapping("/{id}/status")
-    public ResponseEntity<?> getAparcamientoById(@PathVariable Integer id,
+    public ResponseEntity<?> getAparcamientoById(@PathVariable ("id") Integer id,
             @RequestParam("from") Optional<String> from, @RequestParam("to") Optional<String> to) {
-    
         List<AparcamientoMongo> am = new ArrayList<AparcamientoMongo>();
         if (from.isPresent() && to.isPresent()) {
             am = ams.findByIdAndTimestampBetween(id, from.get(), to.get());
@@ -42,7 +41,7 @@ public class AparcamientoMongoController {
             am.add(ams.findFirstByIdentificadorOrderByTimestampDesc(id));
 
             if (am.get(0) == null) {
-                System.out.println("No se encontraron registros");   
+                System.out.println("No se encontraron registros");
             }
             return new ResponseEntity<>(am, HttpStatus.OK);
         }
@@ -55,7 +54,7 @@ public class AparcamientoMongoController {
     // }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody AparcamientoMongo aparcamientoMongo) throws IOException {
+    public ResponseEntity<?> create(@PathVariable("id") Integer id, @RequestBody AparcamientoMongo aparcamientoMongo) throws IOException {
         AparcamientoMongo am = this.ams.create(aparcamientoMongo, id);
 
         if (am == null) {

@@ -30,7 +30,7 @@ public class EstacionMongoController {
 
 	@GetMapping("/{id}/status")
 	@Operation(summary = "Obtener datos de una estacion por id y periodo de tiempo", description = "Obtiene datos de una estacion por su id y periodo de tiempo. Si no se pasa un periodo de tiempo obtiene los datos más recientes")
-	public ResponseEntity<?> getById(@PathVariable Integer id,
+	public ResponseEntity<?> getById(@PathVariable("id") Integer id,
 			@RequestParam(value = "from", required = false) Optional<String> from,
 			@RequestParam(value = "to", required = false) Optional<String> to) {
 				List<EstacionMongo> em = new ArrayList<EstacionMongo>();
@@ -38,14 +38,12 @@ public class EstacionMongoController {
 			 em = ems.findByIdentificadorAndTimestampBetween(id, from.get(), to.get());
 			if (em.isEmpty()) {
 				System.out.println("No se encontraron registros");
-				return new ResponseEntity<>(new EstacionMongo(),HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(em, HttpStatus.OK);
 		} else {
 			em.add(ems.findFirstByIdentificadorOrderByTimestampDesc(id));
 			if (em.get(0) == null) {
 				System.out.println("No se encontraron registros");
-				return new ResponseEntity<>(new EstacionMongo(),HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(em, HttpStatus.OK);
 		}
@@ -53,7 +51,7 @@ public class EstacionMongoController {
 
 	@PostMapping("/{id}")
 	@Operation(summary = "Agregar datos de estacion", description = "Agregar datos de una estacion en la base de datos")
-	public ResponseEntity<?> create(@PathVariable Integer id, @RequestBody EstacionMongo EstacionMongo) throws IOException {
+	public ResponseEntity<?> create(@PathVariable("id") Integer id, @RequestBody EstacionMongo EstacionMongo) throws IOException {
 		EstacionMongo em = ems.create(EstacionMongo, id);
 		if (em == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
