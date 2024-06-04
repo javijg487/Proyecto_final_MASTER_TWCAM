@@ -243,6 +243,7 @@ public class AggregatedDataController {
     }
 
     @PostMapping("/estacion")
+    @Operation(summary = "Crear estación", description = "Crea una estación en la base de datos")
     public ResponseEntity<?> createEstacion(@RequestBody EstacionDTO Estacion,
             @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<EstacionDTO> response;
@@ -265,6 +266,7 @@ public class AggregatedDataController {
     }
 
     @PutMapping("/estacion/{id}")
+    @Operation(summary = "Editar estación", description = "Edita una estación de la base de datos")
     public ResponseEntity<?> editEstacion(@PathVariable Integer id, @RequestBody EstacionDTO estacion,
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
@@ -280,6 +282,7 @@ public class AggregatedDataController {
     }
 
     @DeleteMapping("/estacion/{id}")
+    @Operation(summary = "Borrar estación", description = "Borra una estación de la base de datos")
     public ResponseEntity<?> deleteEstacion(@PathVariable Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
@@ -294,6 +297,7 @@ public class AggregatedDataController {
     }
 
     @PostMapping("/aparcamiento")
+    @Operation(summary = "Crear aparcamiento", description = "Crea un aparcamiento en la base de datos")
     public ResponseEntity<?> create(@RequestBody AparcamientoDTO Aparcamiento,
             @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         ResponseEntity<AparcamientoDTO> response;
@@ -319,6 +323,7 @@ public class AggregatedDataController {
     }
 
     @PutMapping("/aparcamiento/{id}")
+    @Operation(summary = "Editar aparcamiento", description = "Edita un aparcamiento de la base de datos")
     public ResponseEntity<?> editAparcamiento(@PathVariable Integer id, @RequestBody AparcamientoDTO aparcamiento,
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
@@ -335,6 +340,7 @@ public class AggregatedDataController {
     }
 
     @DeleteMapping("/aparcamiento/{id}")
+    @Operation(summary = "Borrar aparcamiento", description = "Borra un aparcamiento de la base de datos")
     public ResponseEntity<?> deleteAparcamiento(@PathVariable("id") Integer id,
             @RequestHeader("Authorization") String authorizationHeader) {
         try {
