@@ -26,7 +26,7 @@ public class UserRestController {
 	@GetMapping("/createAparcamiento")
 	@Operation(summary="Crear Aparcamiento", description="Genera el token de acceso para el rol de APARCAMIENTO")
 	public ResponseEntity<String> createAparcamiento() {
-		String token = jwtService.generateAccessToken("aparcamiento", List.of("APARCAMIENTO"));
+		String token = jwtService.generateAccessToken("aparcamiento", List.of("ROLE_APARCAMIENTO"));
 		if (token != null) {
 			return new ResponseEntity<>(token, HttpStatus.OK);
 		} else {
@@ -37,7 +37,7 @@ public class UserRestController {
 	@GetMapping("/createEstacion")
 	@Operation(summary="Crear Estación", description="Genera el token de acceso para el rol de ESTACION")
 	public ResponseEntity<String> createEstacion() {
-		String token = jwtService.generateAccessToken("estacion", List.of("ESTACION"));
+		String token = jwtService.generateAccessToken("estacion", List.of("ROLE_ESTACION"));
 		if (token != null) {
 			return new ResponseEntity<>(token, HttpStatus.OK);
 		} else {
